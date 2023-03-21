@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "101820532941",
+    "project_id": "pekato-ce00c",
+    "storage_bucket": "pekato-ce00c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101820532941:android:2b1661aeeed89636ec0184",
+        "android_client_info": {
+          "package_name": "com.example.pekato"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101820532941-rt9794fndap1dhik38l0ksbcso50cv3i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgO5xrMdHNa5S2MIxmp-v2Fa7I0sSuyRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101820532941-rt9794fndap1dhik38l0ksbcso50cv3i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
