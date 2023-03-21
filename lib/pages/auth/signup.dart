@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pekato/controllers/auth.dart';
+import 'package:pekato/controllers/auth_controller.dart';
 import 'package:pekato/pages/auth/signin.dart';
-import 'package:pekato/pages/home/user/form/form_data_user.dart';
+import 'package:pekato/pages/role/user/form/form_data_user.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:get/get.dart';
 
@@ -28,7 +28,6 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     final sizeSvg = MediaQuery.of(context).size;
-    final controller = Get.put(AuthController());
 
     return Scaffold(
       body: ListView(
@@ -69,7 +68,6 @@ class _SignUpState extends State<SignUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
-                        controller: controller.email,
                         decoration: const InputDecoration(
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
@@ -101,7 +99,6 @@ class _SignUpState extends State<SignUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
-                        controller: controller.email,
                         decoration: const InputDecoration(
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
@@ -133,7 +130,6 @@ class _SignUpState extends State<SignUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
-                        controller: controller.email,
                         decoration: const InputDecoration(
                             focusedBorder: OutlineInputBorder(
                                 borderSide:

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pekato/controllers/auth.dart';
+import 'package:pekato/controllers/auth_controller.dart';
 import 'package:pekato/pages/auth/signup.dart';
-import 'package:pekato/pages/home/admin/home_admin.dart';
-import 'package:pekato/pages/home/user/home_user.dart';
+import 'package:pekato/pages/role/admin/home_admin.dart';
+import 'package:pekato/pages/role/user/home_user.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:get/get.dart';
 
@@ -31,7 +31,6 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     final sizeSvg = MediaQuery.of(context).size;
-    final controller = Get.put(AuthController());
     return Scaffold(
       body: ListView(
         children: [
