@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pekato/controllers/auth.dart';
 import 'package:pekato/pages/auth/signup.dart';
+import 'package:pekato/pages/home/admin/home_admin.dart';
 import 'package:pekato/pages/home/user/home_user.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:get/get.dart';
@@ -157,6 +158,10 @@ class _SignInState extends State<SignIn> {
                         //       controller.email.text.trim(),
                         //       controller.password.text.trim());
                         // }
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomeAdmin()));
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: green3,
