@@ -14,7 +14,9 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(children: const [Center(child: Text("Profile Page"))]),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [Center(child: Text("Profile Page"))]),
       ),
     );
   }
