@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pekato/pages/home/admin/pages/data_laporan.dart';
-import 'package:pekato/pages/home/admin/pages/list_laporan.dart';
-import 'package:pekato/pages/home/admin/pages/notifikasi_admin.dart';
-import 'package:pekato/pages/home/admin/pages/profile_admin.dart';
+import 'package:pekato/pages/role/admin/pages/data_laporan.dart';
+import 'package:pekato/pages/role/admin/pages/list_laporan.dart';
+import 'package:pekato/pages/role/admin/pages/notifikasi_admin.dart';
+import 'package:pekato/pages/role/admin/pages/profile_admin.dart';
 import 'package:pekato/styles/color.dart';
 
 class HomeAdmin extends StatefulWidget {

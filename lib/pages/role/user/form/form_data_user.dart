@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:pekato/pages/home/user/home_user.dart';
+import 'package:pekato/pages/role/user/home_user.dart';
 import 'package:pekato/styles/color.dart';
 
 class FormDataUser extends StatefulWidget {

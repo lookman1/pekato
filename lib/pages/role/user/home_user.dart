@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:pekato/pages/home/user/form/form_laporan.dart';
-import 'package:pekato/pages/home/user/pages/notificasi.dart';
-import 'package:pekato/pages/home/user/pages/profile.dart';
-import 'package:pekato/pages/home/user/pages/riwayat.dart';
+import 'package:pekato/pages/role/user/form/form_laporan.dart';
+import 'package:pekato/pages/role/user/pages/notificasi.dart';
+import 'package:pekato/pages/role/user/pages/profile.dart';
+import 'package:pekato/pages/role/user/pages/riwayat.dart';
 import 'package:pekato/styles/color.dart';
 
 class HomeUser extends StatefulWidget {
