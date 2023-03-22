@@ -8,21 +8,21 @@ import 'package:pekato/pages/role/petugas/home_petugas.dart';
 import 'package:pekato/pages/role/user/home_user.dart';
 import 'package:pekato/pages/start/welcome.dart';
 
-class Splash extends ConsumerStatefulWidget {
-  const Splash({super.key});
+class SplashUser extends ConsumerStatefulWidget {
+  const SplashUser({super.key});
 
   @override
-  ConsumerState<Splash> createState() => _SplashState();
+  ConsumerState<SplashUser> createState() => _SplashUserState();
 }
 
-class _SplashState extends ConsumerState<Splash> {
+class _SplashUserState extends ConsumerState<SplashUser> {
   bool splash = false;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       splash: "assets/img/at.png",
-      nextScreen: const Welcome(),
+      nextScreen: const HomeUser(),
       splashTransition: SplashTransition.fadeTransition,
       splashIconSize: 400,
     );

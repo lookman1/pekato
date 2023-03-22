@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -7,19 +10,22 @@ import 'package:pekato/pages/auth/signup.dart';
 import 'package:pekato/pages/role/admin/home_admin.dart';
 import 'package:pekato/pages/role/user/home_user.dart';
 import 'package:pekato/styles/color.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/src/consumer.dart';
 
-class SignIn extends StatefulWidget {
+import '../../components/session.dart';
+
+class SignIn extends ConsumerStatefulWidget {
   const SignIn({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  ConsumerState<SignIn> createState() => _SignInState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignInState extends ConsumerState<SignIn> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  bool passenable = true; //track password value
 
   @override
   void dispose() {
@@ -69,29 +75,43 @@ class _SignInState extends State<SignIn> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: green3, width: 3),
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Email',
-                              labelStyle: TextStyle(color: green3),
-                              border: InputBorder.none,
-                              hintText: "Email",
-                              hintStyle: TextStyle(
-                                fontSize: 18,
-                              ),
-                              prefixIcon: Icon(
-                                Icons.email,
-                                color: green3,
-                              ),
+                      child: TextFormField(
+                        controller: email,
+                        validator: ((value) {
+                          if (value!.isEmpty) {
+                            return 'Email tidak boleh kosong';
+                          }
+                          return null;
+                        }),
+                        decoration: const InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: green3, width: 3.0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 3.0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(width: 2.0, color: green3),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            hintText: "email",
+                            hintStyle: TextStyle(
+                              fontSize: 18,
                             ),
-                          ),
-                        ),
+                            prefixIcon: Icon(
+                              Icons.email_outlined,
+                              color: green3,
+                              size: 24.0,
+                            ),
+                            labelText: "email",
+                            labelStyle: TextStyle(color: green3),
+                            isDense: true,
+                            contentPadding: EdgeInsets.all(15)),
                       ),
                     ),
                     const SizedBox(
@@ -99,29 +119,43 @@ class _SignInState extends State<SignIn> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: green3, width: 3),
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Password',
-                              labelStyle: TextStyle(color: green3),
-                              border: InputBorder.none,
-                              hintText: "Password",
-                              hintStyle: TextStyle(
-                                fontSize: 18,
-                              ),
-                              prefixIcon: Icon(
-                                Icons.lock,
-                                color: green3,
-                              ),
+                      child: TextFormField(
+                        controller: password,
+                        validator: ((value) {
+                          if (value!.isEmpty) {
+                            return 'Password tidak boleh kosong';
+                          }
+                          return null;
+                        }),
+                        decoration: const InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: green3, width: 3.0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 3.0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(width: 2.0, color: green3),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            hintText: "password",
+                            hintStyle: TextStyle(
+                              fontSize: 18,
                             ),
-                          ),
-                        ),
+                            prefixIcon: Icon(
+                              Icons.email_outlined,
+                              color: green3,
+                              size: 24.0,
+                            ),
+                            labelText: "password",
+                            labelStyle: TextStyle(color: green3),
+                            isDense: true,
+                            contentPadding: EdgeInsets.all(15)),
                       ),
                     ),
                     Padding(
@@ -151,16 +185,23 @@ class _SignInState extends State<SignIn> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        // if (_formKey.currentState!.validate()) {
-                        //   AuthController.instance.registrasiUser(
-                        //       controller.email.text.trim(),
-                        //       controller.password.text.trim());
-                        // }
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomeAdmin()));
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          try {
+                            await ref
+                                .read(authControllerProvider.notifier)
+                                .login(context, email.text, password.text);
+                            email.clear();
+                            password.clear();
+                            setState(() {});
+                            await createSession(
+                                FirebaseAuth.instance.currentUser!.uid);
+                            log(getSession().toString());
+                            if (!mounted) return;
+                          } catch (e) {
+                            print(e);
+                          }
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: green3,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pekato/controllers/auth_controller.dart';
 import 'package:pekato/pages/auth/signin.dart';
+import 'package:pekato/pages/role/user/form/form_data_user.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
 import 'package:riverpod/riverpod.dart';
@@ -20,6 +21,7 @@ class _SignUpState extends ConsumerState<SignUp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController confirmPassword = TextEditingController();
 
   @override
   void dispose() {
@@ -72,6 +74,12 @@ class _SignUpState extends ConsumerState<SignUp> {
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
                         controller: email,
+                        validator: ((value) {
+                          if (value!.isEmpty) {
+                            return 'Email tidak boleh kosong';
+                          }
+                          return null;
+                        }),
                         decoration: const InputDecoration(
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
@@ -79,7 +87,13 @@ class _SignUpState extends ConsumerState<SignUp> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
                             enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 2.0),
+                                borderSide:
+                                    BorderSide(width: 2.0, color: green3),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
                             hintText: "email",
@@ -104,14 +118,26 @@ class _SignUpState extends ConsumerState<SignUp> {
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
                         controller: password,
+                        validator: ((value) {
+                          if (value!.isEmpty) {
+                            return 'Password tidak boleh kosong';
+                          }
+                          return null;
+                        }),
                         decoration: const InputDecoration(
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: green3, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
+                            errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 3.0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
                             enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 2.0),
+                                borderSide:
+                                    BorderSide(width: 2.0, color: green3),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
                             hintText: "password",
@@ -135,14 +161,27 @@ class _SignUpState extends ConsumerState<SignUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
+                        controller: confirmPassword,
+                        validator: ((value) {
+                          if (value!.isEmpty) {
+                            return 'Password tidak boleh kosong';
+                          }
+                          return null;
+                        }),
                         decoration: const InputDecoration(
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: green3, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
+                            errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 3.0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
                             enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(width: 2.0),
+                                borderSide:
+                                    BorderSide(width: 2.0, color: green3),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
                             hintText: "confirm password",
@@ -175,17 +214,26 @@ class _SignUpState extends ConsumerState<SignUp> {
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          await ref
-                              .read(authControllerProvider.notifier)
-                              .emailPassSignUp(
-                                  context, email.text, password.text);
-                          password.clear();
-                          setState(() {});
-                          await createSession(
-                              FirebaseAuth.instance.currentUser!.uid);
-                          log(getSession().toString());
-                          if (!mounted) return;
+                          try {
+                            await ref
+                                .read(authControllerProvider.notifier)
+                                .register(context, email.text, password.text,
+                                    confirmPassword.text);
+                            password.clear();
+                            confirmPassword.clear();
+                            setState(() {});
+                            await createSession(
+                                FirebaseAuth.instance.currentUser!.uid);
+                            log(getSession().toString());
+                            if (!mounted) return;
+                          } catch (e) {
+                            print(e);
+                          }
                         }
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => const FormDataUser()));
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: green3,

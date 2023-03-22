@@ -1,3 +1,5 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -5,16 +7,20 @@ import 'package:pekato/pages/role/user/form/form_laporan.dart';
 import 'package:pekato/pages/role/user/pages/notificasi.dart';
 import 'package:pekato/pages/role/user/pages/profile.dart';
 import 'package:pekato/pages/role/user/pages/riwayat.dart';
+import 'package:flutter_riverpod/src/consumer.dart';
 import 'package:pekato/styles/color.dart';
 
-class HomeUser extends StatefulWidget {
+import '../../../components/session.dart';
+import '../../../controllers/auth_controller.dart';
+
+class HomeUser extends ConsumerStatefulWidget {
   const HomeUser({super.key});
 
   @override
-  State<HomeUser> createState() => _HomeState();
+  ConsumerState<HomeUser> createState() => _HomeState();
 }
 
-class _HomeState extends State<HomeUser> {
+class _HomeState extends ConsumerState<HomeUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,7 +175,24 @@ class _HomeState extends State<HomeUser> {
                   ),
                 ),
               ],
-            )
+            ),
+            ElevatedButton(
+                onPressed: () async {
+                  try {
+                    await ref
+                        .read(authControllerProvider.notifier)
+                        .logout(context);
+                    deleteSession();
+                  } on FirebaseAuthException {
+                    AnimatedSnackBar.rectangle(
+                      'Logout Failed',
+                      '',
+                      type: AnimatedSnackBarType.error,
+                      mobileSnackBarPosition: MobileSnackBarPosition.bottom,
+                    );
+                  }
+                },
+                child: Text("Logout"))
           ]),
         ),
       ]),

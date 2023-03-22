@@ -1,12 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pekato/firebase_options.dart';
+import 'package:pekato/pages/role/user/home_user.dart';
 import 'package:pekato/pages/start/splash_screen.dart';
+import 'package:pekato/pages/start/splash_user.dart';
+import 'components/session.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const Pekato());
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await getSession();
+  runApp(const ProviderScope(child: Pekato()));
 }
 
 class Pekato extends StatelessWidget {
@@ -14,9 +20,13 @@ class Pekato extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Splash(),
+      home: Builder(builder: (context) {
+        return FirebaseAuth.instance.currentUser == null
+            ? const Splash()
+            : const SplashUser();
+      }),
     );
   }
 }

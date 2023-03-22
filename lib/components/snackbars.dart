@@ -21,7 +21,7 @@ class Snackbars {
           color: Colors.white,
         ),
       ),
-      duration: const Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 2500),
       animateFrom: AnimateFrom.fromBottom,
       backgroundColor: Colors.green,
       titleWidget: Text(
@@ -65,7 +65,7 @@ class Snackbars {
         ),
       ),
       animateFrom: AnimateFrom.fromBottom,
-      duration: const Duration(milliseconds: 2500),
+      duration: const Duration(milliseconds: 3500),
       backgroundColor: Colors.red,
       titleWidget: Text(
         title,
@@ -93,47 +93,6 @@ class Snackbars {
     );
   }
 
-  helpSnackbars(BuildContext context, String title, String message) {
-    SmartSnackBars.showTemplatedSnackbar(
-      elevation: 2,
-      animationCurve: Curves.fastLinearToSlowEaseIn,
-      leading: Container(
-        margin: const EdgeInsets.only(right: 10),
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white.withOpacity(0.2),
-        ),
-        child: const Icon(
-          Icons.info_outline_sharp,
-          color: Colors.white,
-        ),
-      ),
-      animateFrom: AnimateFrom.fromBottom,
-      duration: const Duration(milliseconds: 3500),
-      backgroundColor: Colors.blue,
-      titleWidget: Text(
-        title,
-        style: const TextStyle(
-            color: Colors.white,
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w700),
-      ),
-      subTitleWidget: Padding(
-        padding: const EdgeInsets.only(top: 8.0),
-        child: Text(
-          message,
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-          ),
-        ),
-      ),
-      context: context,
-    );
-  }
-
   warningSnackbars(BuildContext context, String title, String message) {
     SmartSnackBars.showTemplatedSnackbar(
       elevation: 2,
@@ -148,7 +107,7 @@ class Snackbars {
           child: const Icon(Icons.warning)),
       animateFrom: AnimateFrom.fromBottom,
       duration: const Duration(milliseconds: 3500),
-      backgroundColor: Colors.yellow,
+      backgroundColor: Color.fromARGB(255, 224, 202, 8),
       titleWidget: Text(
         title,
         style: const TextStyle(
@@ -171,3 +130,44 @@ class Snackbars {
     );
   }
 }
+
+  // helpSnackbars(BuildContext context, String title, String message) {
+  //   SmartSnackBars.showTemplatedSnackbar(
+  //     elevation: 2,
+  //     animationCurve: Curves.fastLinearToSlowEaseIn,
+  //     leading: Container(
+  //       margin: const EdgeInsets.only(right: 10),
+  //       padding: const EdgeInsets.all(10),
+  //       decoration: BoxDecoration(
+  //         shape: BoxShape.circle,
+  //         color: Colors.white.withOpacity(0.2),
+  //       ),
+  //       child: const Icon(
+  //         Icons.info_outline_sharp,
+  //         color: Colors.white,
+  //       ),
+  //     ),
+  //     animateFrom: AnimateFrom.fromBottom,
+  //     duration: const Duration(milliseconds: 3500),
+  //     backgroundColor: Colors.blue,
+  //     titleWidget: Text(
+  //       title,
+  //       style: const TextStyle(
+  //           color: Colors.white,
+  //           fontFamily: 'Poppins',
+  //           fontWeight: FontWeight.w700),
+  //     ),
+  //     subTitleWidget: Padding(
+  //       padding: const EdgeInsets.only(top: 8.0),
+  //       child: Text(
+  //         message,
+  //         style: const TextStyle(
+  //           color: Colors.white,
+  //           fontWeight: FontWeight.w600,
+  //           fontSize: 14,
+  //         ),
+  //       ),
+  //     ),
+  //     context: context,
+  //   );
+  // }

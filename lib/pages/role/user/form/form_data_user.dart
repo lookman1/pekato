@@ -14,6 +14,7 @@ class FormDataUser extends StatefulWidget {
 class _FormDataUserState extends State<FormDataUser> {
   @override
   Widget build(BuildContext context) {
+    final sizeSvg = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: green2,
       body: ListView(children: [
@@ -27,10 +28,17 @@ class _FormDataUserState extends State<FormDataUser> {
               child: Text(
                 "Data \nMasyarakat",
                 style: TextStyle(
-                    fontSize: 25.0, fontWeight: FontWeight.bold, color: green4),
+                  fontSize: 28.0,
+                  fontWeight: FontWeight.bold,
+                  color: green4,
+                ),
               ),
             ),
-            Center(child: SvgPicture.asset('assets/svg/dataPerson.svg')),
+            Center(
+                child: SvgPicture.asset(
+              'assets/svg/dataPerson.svg',
+              height: sizeSvg.height * 0.4,
+            )),
 
             //form
             Container(
