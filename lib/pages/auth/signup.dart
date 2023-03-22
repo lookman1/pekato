@@ -1,19 +1,22 @@
+import 'dart:developer';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pekato/controllers/auth_controller.dart';
 import 'package:pekato/pages/auth/signin.dart';
-import 'package:pekato/pages/role/user/form/form_data_user.dart';
 import 'package:pekato/styles/color.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/src/consumer.dart';
+import 'package:riverpod/riverpod.dart';
+import '../../components/session.dart';
 
-class SignUp extends StatefulWidget {
+class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  ConsumerState<SignUp> createState() => _SignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignUpState extends ConsumerState<SignUp> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -68,6 +71,7 @@ class _SignUpState extends State<SignUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
+                        controller: email,
                         decoration: const InputDecoration(
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
@@ -99,6 +103,7 @@ class _SignUpState extends State<SignUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
+                        controller: password,
                         decoration: const InputDecoration(
                             focusedBorder: OutlineInputBorder(
                                 borderSide:
@@ -168,17 +173,19 @@ class _SignUpState extends State<SignUp> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const FormDataUser()),
-                        );
-                        // if (_formKey.currentState!.validate()) {
-                        //   AuthController.instance.registrasiUser(
-                        //       controller.email.text.trim(),
-                        //       controller.password.text.trim());
-                        // }
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          await ref
+                              .read(authControllerProvider.notifier)
+                              .emailPassSignUp(
+                                  context, email.text, password.text);
+                          password.clear();
+                          setState(() {});
+                          await createSession(
+                              FirebaseAuth.instance.currentUser!.uid);
+                          log(getSession().toString());
+                          if (!mounted) return;
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: green3,
