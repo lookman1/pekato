@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/src/consumer.dart';
+import 'package:pekato/controllers/form_data_controller.dart';
 import 'package:pekato/pages/role/user/home_user.dart';
 import 'package:pekato/styles/color.dart';
 
-class FormDataUser extends StatefulWidget {
+class FormDataUser extends ConsumerStatefulWidget {
   const FormDataUser({super.key});
 
   @override
-  State<FormDataUser> createState() => _FormDataUserState();
+  ConsumerState<FormDataUser> createState() => _FormDataUserState();
 }
 
-class _FormDataUserState extends State<FormDataUser> {
+class _FormDataUserState extends ConsumerState<FormDataUser> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController nama = TextEditingController();
+  TextEditingController nik = TextEditingController();
+  TextEditingController alamat = TextEditingController();
+  TextEditingController noTelp = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final sizeSvg = MediaQuery.of(context).size;
@@ -28,7 +35,7 @@ class _FormDataUserState extends State<FormDataUser> {
               child: Text(
                 "Data \nMasyarakat",
                 style: TextStyle(
-                  fontSize: 28.0,
+                  fontSize: 30.0,
                   fontWeight: FontWeight.bold,
                   color: green4,
                 ),
@@ -52,16 +59,17 @@ class _FormDataUserState extends State<FormDataUser> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 15.0),
+                      padding: EdgeInsets.symmetric(vertical: 10.0),
                       child: Text(
                         "Masukan Data Anda",
                         style: TextStyle(
-                            fontSize: 20.0,
+                            fontSize: 23.0,
                             fontWeight: FontWeight.w600,
                             color: green4),
                       ),
                     ),
                     Form(
+                      key: _formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -72,16 +80,42 @@ class _FormDataUserState extends State<FormDataUser> {
                                 fontWeight: FontWeight.w500,
                                 color: green4),
                           ),
-                          const TextField(
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(),
+                          TextFormField(
+                            cursorColor: green4,
+                            controller: nama,
+                            keyboardType: TextInputType.name,
+                            validator: ((value) {
+                              if (value!.isEmpty) {
+                                return 'nama tidak boleh kosong';
+                              }
+                              return null;
+                            }),
+                            decoration: const InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: green3, width: 3.0),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              focusedErrorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 3.0),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              errorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 2.0),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(width: 2.0, color: green3),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
                               hintText: "Masukan Nama Anda",
                               isDense: true, // Added this
                               contentPadding: EdgeInsets.all(10),
                             ),
-                            style: TextStyle(fontSize: 15.0),
+                            style: const TextStyle(fontSize: 15.0),
                           ),
                           const SizedBox(
                             height: 10.0,
@@ -93,16 +127,42 @@ class _FormDataUserState extends State<FormDataUser> {
                                 fontWeight: FontWeight.w500,
                                 color: green4),
                           ),
-                          const TextField(
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(),
+                          TextFormField(
+                            cursorColor: green4,
+                            controller: nik,
+                            keyboardType: TextInputType.name,
+                            validator: ((value) {
+                              if (value!.isEmpty) {
+                                return 'NIK tidak boleh kosong';
+                              }
+                              return null;
+                            }),
+                            decoration: const InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: green3, width: 3.0),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              focusedErrorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 3.0),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              errorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 2.0),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(width: 2.0, color: green3),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
                               hintText: "Masukan NIK Anda",
                               isDense: true, // Added this
                               contentPadding: EdgeInsets.all(10),
                             ),
-                            style: TextStyle(fontSize: 15.0),
+                            style: const TextStyle(fontSize: 15.0),
                           ),
                           const SizedBox(
                             height: 10.0,
@@ -114,16 +174,42 @@ class _FormDataUserState extends State<FormDataUser> {
                                 fontWeight: FontWeight.w500,
                                 color: green4),
                           ),
-                          const TextField(
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(),
+                          TextFormField(
+                            cursorColor: green4,
+                            controller: alamat,
+                            keyboardType: TextInputType.name,
+                            validator: ((value) {
+                              if (value!.isEmpty) {
+                                return 'Alamat tidak boleh kosong';
+                              }
+                              return null;
+                            }),
+                            decoration: const InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: green3, width: 3.0),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              focusedErrorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 3.0),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              errorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 2.0),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(width: 2.0, color: green3),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
                               hintText: "Masukan Alamat Anda",
                               isDense: true, // Added this
                               contentPadding: EdgeInsets.all(10),
                             ),
-                            style: TextStyle(fontSize: 15.0),
+                            style: const TextStyle(fontSize: 15.0),
                           ),
                           const SizedBox(
                             height: 10.0,
@@ -135,16 +221,42 @@ class _FormDataUserState extends State<FormDataUser> {
                                 fontWeight: FontWeight.w500,
                                 color: green4),
                           ),
-                          const TextField(
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(),
+                          TextFormField(
+                            cursorColor: green4,
+                            controller: noTelp,
+                            keyboardType: TextInputType.name,
+                            validator: ((value) {
+                              if (value!.isEmpty) {
+                                return 'No Telepon tidak boleh kosong';
+                              }
+                              return null;
+                            }),
+                            decoration: const InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: green3, width: 3.0),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              focusedErrorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 3.0),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              errorBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 2.0),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(width: 2.0, color: green3),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
                               hintText: "Masukan No. Telepon Anda",
                               isDense: true, // Added this
                               contentPadding: EdgeInsets.all(10),
                             ),
-                            style: TextStyle(fontSize: 15.0),
+                            style: const TextStyle(fontSize: 15.0),
                           ),
                           const SizedBox(
                             height: 10.0,
@@ -156,13 +268,24 @@ class _FormDataUserState extends State<FormDataUser> {
                                 height: 40.0,
                                 width: 120.0,
                                 child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const HomeUser(),
-                                          ));
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        try {
+                                          await ref
+                                              .read(formDataControllerProvider
+                                                  .notifier)
+                                              .tambahDataUser(
+                                                  context,
+                                                  nama.text,
+                                                  nik.text,
+                                                  alamat.text,
+                                                  noTelp.text);
+                                          nama.clear();
+                                          nik.clear();
+                                          alamat.clear();
+                                          noTelp.clear();
+                                        } catch (e) {}
+                                      }
                                     },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: green2,
@@ -172,7 +295,7 @@ class _FormDataUserState extends State<FormDataUser> {
                                     child: const Text(
                                       "Submit",
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w400),
+                                          fontWeight: FontWeight.w500),
                                     )),
                               ),
                             ),

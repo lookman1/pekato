@@ -73,7 +73,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
+                        cursorColor: green4,
                         controller: email,
+                        keyboardType: TextInputType.emailAddress,
                         validator: ((value) {
                           if (value!.isEmpty) {
                             return 'Email tidak boleh kosong';
@@ -86,14 +88,19 @@ class _SignUpState extends ConsumerState<SignUp> {
                                     BorderSide(color: green3, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            enabledBorder: OutlineInputBorder(
+                            focusedErrorBorder: OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(width: 2.0, color: green3),
+                                    BorderSide(color: Colors.red, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
                             errorBorder: OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(color: Colors.red, width: 3.0),
+                                    BorderSide(color: Colors.red, width: 2.0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(width: 2.0, color: green3),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
                             hintText: "email",
@@ -117,6 +124,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
+                        cursorColor: green4,
                         controller: password,
                         validator: ((value) {
                           if (value!.isEmpty) {
@@ -130,9 +138,14 @@ class _SignUpState extends ConsumerState<SignUp> {
                                     BorderSide(color: green3, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            errorBorder: OutlineInputBorder(
+                            focusedErrorBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 3.0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 2.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
                             enabledBorder: OutlineInputBorder(
@@ -161,6 +174,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
+                        cursorColor: green4,
                         controller: confirmPassword,
                         validator: ((value) {
                           if (value!.isEmpty) {
@@ -174,9 +188,14 @@ class _SignUpState extends ConsumerState<SignUp> {
                                     BorderSide(color: green3, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            errorBorder: OutlineInputBorder(
+                            focusedErrorBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 3.0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 2.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
                             enabledBorder: OutlineInputBorder(

@@ -13,6 +13,28 @@ import '../model/users.dart';
 class AuthController extends StateNotifier<Users> {
   AuthController() : super(Users());
 
+  Future<Users?> checkUsers() async {
+    final result = FirebaseAuth.instance.currentUser;
+    if (result != null) {
+      var checkUsers = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(result.uid)
+          .get();
+
+      final users = Users.fromJson(checkUsers.data()!);
+      return users;
+    }
+    return null;
+  }
+
+  Future<void> getUsers({required String uid}) async {
+    var checkUsers =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+    final users = Users.fromJson(checkUsers.data()!);
+    state = users;
+  }
+
   Future<void> login(
       BuildContext context, String email, String password) async {
     showDialog(
@@ -57,8 +79,8 @@ class AuthController extends StateNotifier<Users> {
       //   route(context);
     } on FirebaseAuthException catch (e) {
       //   var error = e.message.toString();
-      //   Snackbars().failedSnackbars(
-      //       context, 'Pastikan semua terisi dengan benar!', error);
+      Snackbars().warningSnackbars(context, 'Email atau password salah',
+          "Periksa kembali email dan password anda!");
       Navigator.pop(context);
     }
   }

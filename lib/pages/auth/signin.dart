@@ -76,7 +76,9 @@ class _SignInState extends ConsumerState<SignIn> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
+                        cursorColor: green4,
                         controller: email,
+                        keyboardType: TextInputType.emailAddress,
                         validator: ((value) {
                           if (value!.isEmpty) {
                             return 'Email tidak boleh kosong';
@@ -89,9 +91,14 @@ class _SignInState extends ConsumerState<SignIn> {
                                     BorderSide(color: green3, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            errorBorder: OutlineInputBorder(
+                            focusedErrorBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 3.0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 2.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
                             enabledBorder: OutlineInputBorder(
@@ -120,6 +127,7 @@ class _SignInState extends ConsumerState<SignIn> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: TextFormField(
+                        cursorColor: green4,
                         controller: password,
                         validator: ((value) {
                           if (value!.isEmpty) {
@@ -133,9 +141,14 @@ class _SignInState extends ConsumerState<SignIn> {
                                     BorderSide(color: green3, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            errorBorder: OutlineInputBorder(
+                            focusedErrorBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 3.0),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            errorBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.red, width: 2.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
                             enabledBorder: OutlineInputBorder(
@@ -192,7 +205,6 @@ class _SignInState extends ConsumerState<SignIn> {
                                 .read(authControllerProvider.notifier)
                                 .login(context, email.text, password.text);
                             email.clear();
-                            password.clear();
                             setState(() {});
                             await createSession(
                                 FirebaseAuth.instance.currentUser!.uid);

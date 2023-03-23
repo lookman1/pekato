@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:intl/intl.dart';
 import 'package:pekato/styles/color.dart';
 
 class FormLaporan extends StatefulWidget {
@@ -12,10 +13,13 @@ class FormLaporan extends StatefulWidget {
 
 class _FormLaporanState extends State<FormLaporan> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController tanggal = TextEditingController();
   String _selectedOption = 'Bencana alam';
+  DateTime? _selectedDate;
 
   @override
   Widget build(BuildContext context) {
+    final sizeContainer = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: green2,
       body: ListView(children: [
@@ -27,10 +31,10 @@ class _FormLaporanState extends State<FormLaporan> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 30.0,
+                height: 40.0,
               ),
               const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                padding: EdgeInsets.symmetric(horizontal: 30.0),
                 child: Text(
                   "Masukan Data Laporan Anda",
                   style: TextStyle(
@@ -40,9 +44,10 @@ class _FormLaporanState extends State<FormLaporan> {
                 ),
               ),
               const SizedBox(
-                height: 40.0,
+                height: 60.0,
               ),
               Container(
+                height: sizeContainer.height * 0.9,
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius:
@@ -63,10 +68,28 @@ class _FormLaporanState extends State<FormLaporan> {
                             color: green4),
                       ),
                       const TextField(
+                        cursorColor: green4,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
-                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: green3, width: 2.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                          focusedErrorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 2.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                          errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 2.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 1.0, color: green3),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
                           hintText: "masukan nama anda",
                           isDense: true, // Added this
                           contentPadding: EdgeInsets.all(10),
@@ -84,10 +107,28 @@ class _FormLaporanState extends State<FormLaporan> {
                             color: green4),
                       ),
                       const TextField(
+                        cursorColor: green4,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
-                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: green3, width: 2.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                          focusedErrorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 2.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                          errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 2.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 1.0, color: green3),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
                           hintText: "masukan nama tempat",
                           isDense: true, // Added this
                           contentPadding: EdgeInsets.all(10),
@@ -108,7 +149,7 @@ class _FormLaporanState extends State<FormLaporan> {
                         height: 35.0,
                         child: Container(
                           decoration: BoxDecoration(
-                              border: Border.all(color: green2),
+                              border: Border.all(color: green4),
                               color: Colors.white,
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(5.0))),
@@ -147,6 +188,58 @@ class _FormLaporanState extends State<FormLaporan> {
                         height: 15.0,
                       ),
                       const Text(
+                        "Tanggal Kejadian",
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w500,
+                            color: green4),
+                      ),
+                      TextFormField(
+                        cursorColor: green4,
+                        controller: tanggal,
+                        readOnly: true,
+                        decoration: const InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: green3, width: 2.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                          focusedErrorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 2.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                          errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 2.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 1.0, color: green3),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                          hintText: "masukan nama tempat",
+                          isDense: true, // Added this
+                          contentPadding: EdgeInsets.all(10),
+                        ),
+                        onTap: () async {
+                          _selectedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100),
+                          );
+                          if (_selectedDate != null) {
+                            tanggal.text =
+                                DateFormat('dd/MM/yyyy').format(_selectedDate!);
+                          }
+                        },
+                      ),
+                      const SizedBox(
+                        height: 15.0,
+                      ),
+                      const Text(
                         "Isi Laporan",
                         style: TextStyle(
                             fontSize: 15.0,
@@ -154,11 +247,29 @@ class _FormLaporanState extends State<FormLaporan> {
                             color: green4),
                       ),
                       const TextField(
+                        cursorColor: green4,
                         maxLines: 6,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
-                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: green3, width: 2.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                          focusedErrorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 2.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                          errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 2.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 1.0, color: green3),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
                           hintText: "Masukan laporan Anda",
                           isDense: true, // Added this
                           contentPadding: EdgeInsets.all(10),
