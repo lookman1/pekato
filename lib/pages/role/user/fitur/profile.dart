@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 // ignore: implementation_imports
 import 'package:flutter_riverpod/src/consumer.dart';
-import 'package:pekato/pages/role/user/pages/form/form_data_user.dart';
+import 'package:pekato/pages/role/user/fitur/form/form_data_user.dart';
 import '../../../../components/session.dart';
 import '../../../../controllers/auth_controller.dart';
 import '../../../../styles/color.dart';
