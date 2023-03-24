@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_riverpod/src/consumer.dart';
 import 'package:intl/intl.dart';
+import 'package:pekato/controllers/laporan_controller.dart';
 import 'package:pekato/styles/color.dart';
 
-class FormLaporan extends StatefulWidget {
+class FormLaporan extends ConsumerStatefulWidget {
   const FormLaporan({super.key});
 
   @override
-  State<FormLaporan> createState() => _FormLaporanState();
+  ConsumerState<FormLaporan> createState() => _FormLaporanState();
 }
 
-class _FormLaporanState extends State<FormLaporan> {
+class _FormLaporanState extends ConsumerState<FormLaporan> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController nik = TextEditingController();
+  TextEditingController tempat = TextEditingController();
   TextEditingController tanggal = TextEditingController();
+  TextEditingController isi = TextEditingController();
+  TextEditingController foto = TextEditingController();
   String _selectedOption = 'Bencana alam';
   DateTime? _selectedDate;
 
@@ -61,15 +67,16 @@ class _FormLaporanState extends State<FormLaporan> {
                         height: 30.0,
                       ),
                       const Text(
-                        "Nama",
+                        "Nik",
                         style: TextStyle(
                             fontSize: 15.0,
                             fontWeight: FontWeight.w500,
                             color: green4),
                       ),
-                      const TextField(
+                      TextFormField(
+                        controller: nik,
                         cursorColor: green4,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
                           focusedBorder: OutlineInputBorder(
@@ -90,11 +97,11 @@ class _FormLaporanState extends State<FormLaporan> {
                               borderSide: BorderSide(width: 1.0, color: green3),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(8.0))),
-                          hintText: "masukan nama anda",
+                          hintText: "masukan NIK anda",
                           isDense: true, // Added this
                           contentPadding: EdgeInsets.all(10),
                         ),
-                        style: TextStyle(fontSize: 15.0),
+                        style: const TextStyle(fontSize: 15.0),
                       ),
                       const SizedBox(
                         height: 15.0,
@@ -106,9 +113,10 @@ class _FormLaporanState extends State<FormLaporan> {
                             fontWeight: FontWeight.w500,
                             color: green4),
                       ),
-                      const TextField(
+                      TextFormField(
+                        controller: tempat,
                         cursorColor: green4,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
                           focusedBorder: OutlineInputBorder(
@@ -246,10 +254,11 @@ class _FormLaporanState extends State<FormLaporan> {
                             fontWeight: FontWeight.w500,
                             color: green4),
                       ),
-                      const TextField(
+                      TextFormField(
+                        controller: isi,
                         cursorColor: green4,
                         maxLines: 6,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
                           focusedBorder: OutlineInputBorder(
@@ -306,7 +315,23 @@ class _FormLaporanState extends State<FormLaporan> {
                           child: SizedBox(
                             width: 120.0,
                             child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    try {
+                                      await ref
+                                          .read(laporanControllerProvider
+                                              .notifier)
+                                          .kirimLaporan(
+                                              context,
+                                              nik.text,
+                                              tempat.text,
+                                              _selectedOption,
+                                              tanggal.text,
+                                              isi.text,
+                                              foto.text);
+                                    } catch (e) {}
+                                  }
+                                },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: green2,
                                   shape: RoundedRectangleBorder(

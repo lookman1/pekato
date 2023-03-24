@@ -7,8 +7,9 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pekato/controllers/auth_controller.dart';
 import 'package:pekato/pages/auth/signup.dart';
-import 'package:pekato/pages/role/admin/home_admin.dart';
+import 'package:pekato/pages/role/administator/admin/home_admin.dart';
 import 'package:pekato/pages/role/user/home_user.dart';
+import 'package:pekato/pages/role/user/pages/profile.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
 
@@ -106,7 +107,7 @@ class _SignInState extends ConsumerState<SignIn> {
                                     BorderSide(width: 2.0, color: green3),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            hintText: "email",
+                            hintText: "Masukan email anda",
                             hintStyle: TextStyle(
                               fontSize: 18,
                             ),
@@ -129,41 +130,58 @@ class _SignInState extends ConsumerState<SignIn> {
                       child: TextFormField(
                         cursorColor: green4,
                         controller: password,
+                        obscureText: passenable,
                         validator: ((value) {
                           if (value!.isEmpty) {
                             return 'Password tidak boleh kosong';
                           }
                           return null;
                         }),
-                        decoration: const InputDecoration(
-                            focusedBorder: OutlineInputBorder(
+                        decoration: InputDecoration(
+                            focusedBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: green3, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            focusedErrorBorder: OutlineInputBorder(
+                            focusedErrorBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            errorBorder: OutlineInputBorder(
+                            errorBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 2.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            enabledBorder: OutlineInputBorder(
+                            enabledBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(width: 2.0, color: green3),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            hintText: "password",
-                            hintStyle: TextStyle(
+                            hintText: "Masukan password anda",
+                            hintStyle: const TextStyle(
                               fontSize: 18,
                             ),
-                            prefixIcon: Icon(
-                              Icons.email_outlined,
+                            prefixIcon: const Icon(
+                              Icons.lock_outline_rounded,
                               color: green3,
                               size: 24.0,
+                            ),
+                            suffixIcon: IconButton(
+                              color: green4,
+                              splashColor: Colors.transparent,
+                              onPressed: () {
+                                setState(() {
+                                  if (passenable) {
+                                    passenable = false;
+                                  } else {
+                                    passenable = true;
+                                  }
+                                });
+                              },
+                              icon: Icon(passenable == true
+                                  ? Icons.visibility_off_rounded
+                                  : Icons.visibility_rounded),
                             ),
                             labelText: "password",
                             labelStyle: TextStyle(color: green3),
@@ -204,7 +222,7 @@ class _SignInState extends ConsumerState<SignIn> {
                             await ref
                                 .read(authControllerProvider.notifier)
                                 .login(context, email.text, password.text);
-                            email.clear();
+                            password.clear();
                             setState(() {});
                             await createSession(
                                 FirebaseAuth.instance.currentUser!.uid);
@@ -214,6 +232,10 @@ class _SignInState extends ConsumerState<SignIn> {
                             print(e);
                           }
                         }
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => const Profile()));
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: green3,

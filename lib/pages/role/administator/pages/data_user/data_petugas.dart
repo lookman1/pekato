@@ -1,14 +1,14 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-class ProfileAdmin extends StatefulWidget {
-  const ProfileAdmin({super.key});
+class DataPetugas extends StatefulWidget {
+  const DataPetugas({super.key});
 
   @override
-  State<ProfileAdmin> createState() => _ProfileAdminState();
+  State<DataPetugas> createState() => _DataPetugasState();
 }
 
-class _ProfileAdminState extends State<ProfileAdmin> {
+class _DataPetugasState extends State<DataPetugas> {
   @override
   Widget build(BuildContext context) {
     return const Placeholder();

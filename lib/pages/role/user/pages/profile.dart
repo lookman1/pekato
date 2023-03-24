@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 // ignore: implementation_imports
 import 'package:flutter_riverpod/src/consumer.dart';
-import 'package:pekato/pages/role/user/form/form_data_user.dart';
+import 'package:pekato/pages/role/user/pages/form/form_data_user.dart';
 import '../../../../components/session.dart';
 import '../../../../controllers/auth_controller.dart';
+import '../../../../styles/color.dart';
 
 class Profile extends ConsumerStatefulWidget {
   const Profile({super.key});
@@ -17,21 +18,204 @@ class Profile extends ConsumerStatefulWidget {
 class _ProfileState extends ConsumerState<Profile> {
   @override
   Widget build(BuildContext context) {
+    final sizeContext = MediaQuery.of(context).size;
+    final users = ref.watch(authControllerProvider);
+
     return Scaffold(
       body: SafeArea(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          ElevatedButton(
-              onPressed: () async {
-                try {
-                  await ref
-                      .read(authControllerProvider.notifier)
-                      .logout(context);
-                  deleteSession();
-                } on FirebaseAuthException {
-                  return;
-                }
-              },
-              child: Text("Logout")),
+        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+          SizedBox(
+            height: sizeContext.height * 0.33,
+            child: Stack(
+              children: [
+                // Widget pertama
+                Container(
+                  height: sizeContext.height * 0.2,
+                  width: sizeContext.width * 1,
+                  decoration: const BoxDecoration(
+                      color: greenLight,
+                      borderRadius: BorderRadius.vertical(
+                          bottom: Radius.circular(180.0))),
+                ),
+                // Widget kedua yang akan ditempatkan di atas widget pertama
+                Positioned(
+                  top: 80,
+                  left: 115,
+                  child: Container(
+                    child: const Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: CircleAvatar(
+                        maxRadius: 90,
+                        backgroundImage: AssetImage('assets/img/piks.jpg'),
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Center(
+            child: Text(
+              ('${users.nama}'),
+              style: const TextStyle(
+                  color: green4, fontSize: 27.0, fontWeight: FontWeight.w400),
+            ),
+          ),
+          const SizedBox(
+            height: 30.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    enabled: false,
+                    decoration: InputDecoration(
+                        disabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: green4, width: 2.0)),
+                        hintText: 'Masyarakat',
+                        hintStyle: TextStyle(
+                            color: green4,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w400),
+                        prefixIcon:
+                            Icon(Icons.settings_accessibility, color: green4),
+                        suffixIcon: Icon(
+                          Icons.settings_accessibility_rounded,
+                          color: Colors.white,
+                        )),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    enabled: false,
+                    decoration: InputDecoration(
+                        disabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: green4, width: 2.0)),
+                        hintText: '${users.nik}',
+                        hintStyle: const TextStyle(
+                            color: green4,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w400),
+                        prefixIcon: const Icon(Icons.person_outline_rounded,
+                            color: green4),
+                        suffixIcon: const Icon(
+                          Icons.settings_accessibility_rounded,
+                          color: Colors.white,
+                        )),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    enabled: false,
+                    decoration: InputDecoration(
+                        disabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: green4, width: 2.0)),
+                        hintText: '${users.alamat}',
+                        hintStyle: const TextStyle(
+                            color: green4,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w400),
+                        prefixIcon: const Icon(Icons.location_on_outlined,
+                            color: green4),
+                        suffixIcon: const Icon(
+                          Icons.settings_accessibility_rounded,
+                          color: Colors.white,
+                        )),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    enabled: false,
+                    decoration: InputDecoration(
+                        disabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: green4, width: 2.0)),
+                        hintText: '${users.telp}',
+                        hintStyle: const TextStyle(
+                            color: green4,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w400),
+                        prefixIcon: const Icon(Icons.local_phone_outlined,
+                            color: green4),
+                        suffixIcon: const Icon(
+                          Icons.settings_accessibility_rounded,
+                          color: Colors.white,
+                        )),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30.0,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 30.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 100.0,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)),
+                      backgroundColor: green2,
+                    ),
+                    onPressed: () async {
+                      try {
+                        await ref
+                            .read(authControllerProvider.notifier)
+                            .logout(context);
+                        deleteSession();
+                      } on FirebaseAuthException {
+                        return;
+                      }
+                    },
+                    child: const Text("Log Out")),
+              ),
+              const SizedBox(
+                width: 20.0,
+              ),
+              SizedBox(
+                width: 100.0,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)),
+                      backgroundColor: green2,
+                    ),
+                    onPressed: () async {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const FormDataUser()));
+                    },
+                    child: const Text("Edit")),
+              ),
+            ],
+          ),
         ]),
       ),
     );

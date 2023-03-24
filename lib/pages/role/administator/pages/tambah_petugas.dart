@@ -1,14 +1,14 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-class HistoryLaporan extends StatefulWidget {
-  const HistoryLaporan({super.key});
+class TambahPetugas extends StatefulWidget {
+  const TambahPetugas({super.key});
 
   @override
-  State<HistoryLaporan> createState() => _HistoryLaporanState();
+  State<TambahPetugas> createState() => _TambahPetugasState();
 }
 
-class _HistoryLaporanState extends State<HistoryLaporan> {
+class _TambahPetugasState extends State<TambahPetugas> {
   @override
   Widget build(BuildContext context) {
     return const Placeholder();

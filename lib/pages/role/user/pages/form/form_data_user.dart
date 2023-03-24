@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
-import 'package:pekato/controllers/form_data_controller.dart';
+import 'package:pekato/controllers/auth_controller.dart';
+import 'package:pekato/controllers/laporan_controller.dart';
 import 'package:pekato/pages/role/user/home_user.dart';
 import 'package:pekato/styles/color.dart';
+
+import '../../../../../model/users.dart';
 
 class FormDataUser extends ConsumerStatefulWidget {
   const FormDataUser({super.key});
@@ -19,11 +24,30 @@ class _FormDataUserState extends ConsumerState<FormDataUser> {
   TextEditingController alamat = TextEditingController();
   TextEditingController noTelp = TextEditingController();
 
+  Future<void> getDataUser() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      var checkUsers = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .get();
+
+      final users = Users.fromJson(checkUsers.data()!);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDataUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     final sizeSvg = MediaQuery.of(context).size;
+    final user = ref.read(authControllerProvider);
     return Scaffold(
-      backgroundColor: green2,
+      backgroundColor: greenLight,
       body: ListView(children: [
         SafeArea(
             child: Column(
@@ -272,7 +296,7 @@ class _FormDataUserState extends ConsumerState<FormDataUser> {
                                       if (_formKey.currentState!.validate()) {
                                         try {
                                           await ref
-                                              .read(formDataControllerProvider
+                                              .read(authControllerProvider
                                                   .notifier)
                                               .tambahDataUser(
                                                   context,

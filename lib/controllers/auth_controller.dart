@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:pekato/pages/role/admin/home_admin.dart';
-import 'package:pekato/pages/role/user/form/form_data_user.dart';
+import 'package:logger/logger.dart';
+import 'package:pekato/pages/role/administator/admin/home_admin.dart';
+import 'package:pekato/pages/role/administator/petugas/home_petugas.dart';
+import 'package:pekato/pages/role/user/pages/form/form_data_user.dart';
 import 'package:pekato/pages/role/user/home_user.dart';
 import 'package:pekato/pages/start/welcome.dart';
 import 'package:riverpod/riverpod.dart';
@@ -13,7 +15,7 @@ import '../model/users.dart';
 class AuthController extends StateNotifier<Users> {
   AuthController() : super(Users());
 
-  Future<Users?> checkUsers() async {
+  Future<Users?> getCurrentUsers() async {
     final result = FirebaseAuth.instance.currentUser;
     if (result != null) {
       var checkUsers = await FirebaseFirestore.instance
@@ -25,14 +27,6 @@ class AuthController extends StateNotifier<Users> {
       return users;
     }
     return null;
-  }
-
-  Future<void> getUsers({required String uid}) async {
-    var checkUsers =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
-
-    final users = Users.fromJson(checkUsers.data()!);
-    state = users;
   }
 
   Future<void> login(
@@ -53,26 +47,23 @@ class AuthController extends StateNotifier<Users> {
             .collection('users')
             .doc(credential.user!.uid)
             .get();
-        if (!checkUsers.exists) {
-          // final users = Users.fromJson(checkUsers.data()!);
-          // print(users.role);
-          // print(checkUsers.data()!);
-          // if (users.role == 'user') {
-          //   Navigator.pushReplacement(context,
-          //       MaterialPageRoute(builder: (context) => const HomeUser()));
-          // } else if (users.role == 'admin') {
-          //   Navigator.pushReplacement(context,
-          //       MaterialPageRoute(builder: (context) => const HomeAdmin()));
-          // } else if (users.role == 'petugas') {
-          //   Navigator.pushReplacement(context,
-          //       MaterialPageRoute(builder: (context) => const HomePetugas()));
-          // };
-        }
-      }
-      if (!mounted) return;
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomeUser()));
 
+        final users = Users.fromJson(checkUsers.data()!);
+        print(users.role);
+        print(checkUsers.data()!);
+        if (users.role == 'user') {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const HomeUser()));
+        } else if (users.role == 'admin') {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const HomeAdmin()));
+        } else if (users.role == 'petugas') {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const HomePetugas()));
+        }
+        ;
+        if (!mounted) return;
+      }
       //   Snackbars().successSnackbars(
       //       context, 'Berhasil Masuk', 'Selamat Datang di MySpp');
       //   Navigator.of(context).popUntil((route) => route.isFirst);
@@ -151,18 +142,36 @@ class AuthController extends StateNotifier<Users> {
     }
   }
 
+  Future<void> getUsers({required String uid}) async {
+    var checkUsers =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+    final users = Users.fromJson(checkUsers.data()!);
+    state = users;
+  }
+
   Future<Users?> getUser() async {
-    final result = FirebaseAuth.instance.currentUser;
-    if (result != null) {
+    final data = FirebaseAuth.instance.currentUser;
+    if (data != null) {
       var checkUsers = await FirebaseFirestore.instance
           .collection('users')
-          .doc(result.uid)
+          .doc(data.uid)
           .get();
 
       final users = Users.fromJson(checkUsers.data()!);
       return users;
     }
     return null;
+  }
+
+  Future<String> checkUsers(BuildContext context) async {
+    final result = FirebaseAuth.instance.currentUser;
+    Logger().i(result);
+    if (result != null) {
+      await getUsers(uid: result.uid);
+      return result.uid;
+    }
+    return '';
   }
 
   Future<void> logout(BuildContext context) async {
@@ -178,6 +187,52 @@ class AuthController extends StateNotifier<Users> {
     );
 
     state = Users();
+  }
+
+  Future<void> tambahDataUser(BuildContext context, String nama, String nik,
+      String alamat, String noTelp) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+              child: CircularProgressIndicator.adaptive(
+                backgroundColor: HexColor('#4392A4'),
+              ),
+            ));
+
+    try {
+      final currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        var getData = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUser.uid)
+            .get();
+        if (getData.exists) {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(currentUser.uid)
+              .update({
+            'nama': nama,
+            'nik': nik,
+            'alamat': alamat,
+            'telp': noTelp,
+          });
+          final users = Users(
+            nama: nama,
+            nik: nik,
+            alamat: alamat,
+            telp: noTelp,
+          );
+          state = users;
+        }
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const HomeUser()));
+      }
+    } on FirebaseAuthException catch (e) {
+      //   var error = e.message.toString();
+      Snackbars().warningSnackbars(context, 'gagal', "gagal");
+      Navigator.pop(context);
+    }
   }
 }
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pekato/controllers/auth_controller.dart';
 import 'package:pekato/pages/auth/signin.dart';
-import 'package:pekato/pages/role/user/form/form_data_user.dart';
+import 'package:pekato/pages/role/user/pages/form/form_data_user.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
 import 'package:riverpod/riverpod.dart';
@@ -22,6 +22,8 @@ class _SignUpState extends ConsumerState<SignUp> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
+  bool passenable = true;
+  bool passenable2 = true;
 
   @override
   void dispose() {
@@ -103,7 +105,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                                     BorderSide(width: 2.0, color: green3),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            hintText: "email",
+                            hintText: "Masukan email anda",
                             hintStyle: TextStyle(
                               fontSize: 18,
                             ),
@@ -126,41 +128,60 @@ class _SignUpState extends ConsumerState<SignUp> {
                       child: TextFormField(
                         cursorColor: green4,
                         controller: password,
+                        obscureText: passenable,
                         validator: ((value) {
                           if (value!.isEmpty) {
                             return 'Password tidak boleh kosong';
+                          } else if (value.length <= 8) {
+                            return 'password minimal 8 karakter';
                           }
                           return null;
                         }),
-                        decoration: const InputDecoration(
-                            focusedBorder: OutlineInputBorder(
+                        decoration: InputDecoration(
+                            focusedBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: green3, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            focusedErrorBorder: OutlineInputBorder(
+                            focusedErrorBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            errorBorder: OutlineInputBorder(
+                            errorBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 2.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            enabledBorder: OutlineInputBorder(
+                            enabledBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(width: 2.0, color: green3),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            hintText: "password",
-                            hintStyle: TextStyle(
+                            hintText: "Masukan password anda",
+                            hintStyle: const TextStyle(
                               fontSize: 18,
                             ),
-                            prefixIcon: Icon(
+                            prefixIcon: const Icon(
                               Icons.lock_outlined,
                               color: green3,
                               size: 20.0,
+                            ),
+                            suffixIcon: IconButton(
+                              color: green4,
+                              splashColor: Colors.transparent,
+                              onPressed: () {
+                                setState(() {
+                                  if (passenable) {
+                                    passenable = false;
+                                  } else {
+                                    passenable = true;
+                                  }
+                                });
+                              },
+                              icon: Icon(passenable == true
+                                  ? Icons.visibility_off_rounded
+                                  : Icons.visibility_rounded),
                             ),
                             labelText: "password",
                             labelStyle: TextStyle(color: green3),
@@ -176,46 +197,63 @@ class _SignUpState extends ConsumerState<SignUp> {
                       child: TextFormField(
                         cursorColor: green4,
                         controller: confirmPassword,
+                        obscureText: passenable2,
                         validator: ((value) {
                           if (value!.isEmpty) {
                             return 'Password tidak boleh kosong';
                           }
                           return null;
                         }),
-                        decoration: const InputDecoration(
-                            focusedBorder: OutlineInputBorder(
+                        decoration: InputDecoration(
+                            focusedBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: green3, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            focusedErrorBorder: OutlineInputBorder(
+                            focusedErrorBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            errorBorder: OutlineInputBorder(
+                            errorBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 2.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            enabledBorder: OutlineInputBorder(
+                            enabledBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(width: 2.0, color: green3),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            hintText: "confirm password",
-                            hintStyle: TextStyle(
+                            hintText: "konfirmasi password",
+                            hintStyle: const TextStyle(
                               fontSize: 18,
                             ),
-                            prefixIcon: Icon(
+                            prefixIcon: const Icon(
                               Icons.lock_outlined,
                               color: green3,
                               size: 20.0,
                             ),
+                            suffixIcon: IconButton(
+                              color: green4,
+                              splashColor: Colors.transparent,
+                              onPressed: () {
+                                setState(() {
+                                  if (passenable2) {
+                                    passenable2 = false;
+                                  } else {
+                                    passenable2 = true;
+                                  }
+                                });
+                              },
+                              icon: Icon(passenable2 == true
+                                  ? Icons.visibility_off_rounded
+                                  : Icons.visibility_rounded),
+                            ),
                             labelText: "confirm password",
-                            labelStyle: TextStyle(color: green3),
+                            labelStyle: const TextStyle(color: green3),
                             isDense: true,
-                            contentPadding: EdgeInsets.all(15)),
+                            contentPadding: const EdgeInsets.all(15)),
                       ),
                     ),
                     const SizedBox(
