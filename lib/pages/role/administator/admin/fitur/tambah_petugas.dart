@@ -6,11 +6,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pekato/controllers/auth_controller.dart';
-import 'package:pekato/model/pages/auth/reset_pass.dart';
-import 'package:pekato/model/pages/auth/signup.dart';
-import 'package:pekato/model/pages/role/administator/admin/home_admin.dart';
-import 'package:pekato/model/pages/role/user/home_user.dart';
-import 'package:pekato/model/pages/role/user/fitur/profile.dart';
+import 'package:pekato/pages/auth/reset_pass.dart';
+import 'package:pekato/pages/auth/signup.dart';
+import 'package:pekato/pages/role/administator/admin/home_admin.dart';
+import 'package:pekato/pages/role/user/home_user.dart';
+import 'package:pekato/pages/role/user/fitur/profile.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
 

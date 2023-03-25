@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:pekato/model/pages/role/administator/fitur/laporan/detail_laporan.dart.dart';
+import 'package:pekato/pages/role/administator/fitur/laporan/detail_laporan.dart.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:pekato/model/laporan.dart';
 

@@ -4,14 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:pekato/model/pages/role/user/fitur/form/form_laporan.dart';
-import 'package:pekato/model/pages/role/user/fitur/notificasi.dart';
-import 'package:pekato/model/pages/role/user/fitur/profile.dart';
-import 'package:pekato/model/pages/role/user/fitur/riwayat.dart';
+import 'package:pekato/pages/role/user/fitur/form/form_laporan.dart';
+import 'package:pekato/pages/role/user/fitur/notificasi.dart';
+import 'package:pekato/pages/role/user/fitur/profile.dart';
+import 'package:pekato/pages/role/user/fitur/riwayat.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
 import 'package:pekato/styles/color.dart';
 
-import '../../../../controllers/auth_controller.dart';
+import '../../../controllers/auth_controller.dart';
 
 class HomeUser extends ConsumerStatefulWidget {
   const HomeUser({super.key});

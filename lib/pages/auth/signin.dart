@@ -1,29 +1,33 @@
 import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pekato/controllers/auth_controller.dart';
-import 'package:pekato/model/pages/auth/signin.dart';
-import 'package:pekato/model/pages/role/user/fitur/form/form_data_user.dart';
+import 'package:pekato/pages/auth/reset_pass.dart';
+import 'package:pekato/pages/auth/signup.dart';
+import 'package:pekato/pages/role/administator/admin/home_admin.dart';
+import 'package:pekato/pages/role/user/home_user.dart';
+import 'package:pekato/pages/role/user/fitur/profile.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
-import 'package:riverpod/riverpod.dart';
-import '../../../components/session.dart';
 
-class SignUp extends ConsumerStatefulWidget {
-  const SignUp({super.key});
+import '../../components/session.dart';
+
+class SignIn extends ConsumerStatefulWidget {
+  const SignIn({super.key});
 
   @override
-  ConsumerState<SignUp> createState() => _SignUpState();
+  ConsumerState<SignIn> createState() => _SignInState();
 }
 
-class _SignUpState extends ConsumerState<SignUp> {
+class _SignInState extends ConsumerState<SignIn> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-  TextEditingController confirmPassword = TextEditingController();
-  bool passenable = true;
-  bool passenable2 = true;
+  bool passenable = true; //track password value
 
   @override
   void dispose() {
@@ -35,7 +39,6 @@ class _SignUpState extends ConsumerState<SignUp> {
   @override
   Widget build(BuildContext context) {
     final sizeSvg = MediaQuery.of(context).size;
-
     return Scaffold(
       body: ListView(
         children: [
@@ -44,10 +47,10 @@ class _SignUpState extends ConsumerState<SignUp> {
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
+                  padding: const EdgeInsets.only(top: 80.0, bottom: 20.0),
                   child: SvgPicture.asset(
-                    'assets/svg/auth.svg',
-                    height: sizeSvg.height * 0.4,
+                    'assets/svg/login.svg',
+                    height: sizeSvg.height * 0.36,
                   ),
                 ),
               ),
@@ -56,7 +59,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Sign Up',
+                    'Sign In',
                     style: TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.w500,
@@ -132,8 +135,6 @@ class _SignUpState extends ConsumerState<SignUp> {
                         validator: ((value) {
                           if (value!.isEmpty) {
                             return 'Password tidak boleh kosong';
-                          } else if (value.length <= 8) {
-                            return 'password minimal 8 karakter';
                           }
                           return null;
                         }),
@@ -163,9 +164,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                               fontSize: 18,
                             ),
                             prefixIcon: const Icon(
-                              Icons.lock_outlined,
+                              Icons.lock_outline_rounded,
                               color: green3,
-                              size: 20.0,
+                              size: 24.0,
                             ),
                             suffixIcon: IconButton(
                               color: green4,
@@ -189,75 +190,27 @@ class _SignUpState extends ConsumerState<SignUp> {
                             contentPadding: EdgeInsets.all(15)),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: TextFormField(
-                        cursorColor: green4,
-                        controller: confirmPassword,
-                        obscureText: passenable2,
-                        validator: ((value) {
-                          if (value!.isEmpty) {
-                            return 'Password tidak boleh kosong';
-                          }
-                          return null;
-                        }),
-                        decoration: InputDecoration(
-                            focusedBorder: const OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: green3, width: 3.0),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0))),
-                            focusedErrorBorder: const OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 3.0),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0))),
-                            errorBorder: const OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 2.0),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0))),
-                            enabledBorder: const OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(width: 2.0, color: green3),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20.0))),
-                            hintText: "konfirmasi password",
-                            hintStyle: const TextStyle(
-                              fontSize: 18,
+                      padding: const EdgeInsets.only(right: 25.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const ResetPass()));
+                            },
+                            child: const Text(
+                              'Forgot Password?',
+                              style: TextStyle(
+                                color: green3,
+                              ),
                             ),
-                            prefixIcon: const Icon(
-                              Icons.lock_reset,
-                              color: green3,
-                              size: 25.0,
-                            ),
-                            suffixIcon: IconButton(
-                              color: green4,
-                              splashColor: Colors.transparent,
-                              onPressed: () {
-                                setState(() {
-                                  if (passenable2) {
-                                    passenable2 = false;
-                                  } else {
-                                    passenable2 = true;
-                                  }
-                                });
-                              },
-                              icon: Icon(passenable2 == true
-                                  ? Icons.visibility_off_rounded
-                                  : Icons.visibility_rounded),
-                            ),
-                            labelText: "confirm password",
-                            labelStyle: const TextStyle(color: green3),
-                            isDense: true,
-                            contentPadding: const EdgeInsets.all(15)),
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
                     ),
                   ],
                 ),
@@ -274,10 +227,8 @@ class _SignUpState extends ConsumerState<SignUp> {
                           try {
                             await ref
                                 .read(authControllerProvider.notifier)
-                                .register(context, email.text, password.text,
-                                    confirmPassword.text);
+                                .login(context, email.text, password.text);
                             password.clear();
-                            confirmPassword.clear();
                             setState(() {});
                             await createSession(
                                 FirebaseAuth.instance.currentUser!.uid);
@@ -290,7 +241,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                         // Navigator.push(
                         //     context,
                         //     MaterialPageRoute(
-                        //         builder: (context) => const FormDataUser()));
+                        //         builder: (context) => const Profile()));
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: green3,
@@ -299,7 +250,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                       child: const Padding(
                         padding: EdgeInsets.all(12.0),
                         child: Text(
-                          'Sign Up',
+                          'Login',
                           style: TextStyle(
                               fontSize: 20.0, fontWeight: FontWeight.bold),
                         ),
@@ -308,17 +259,16 @@ class _SignUpState extends ConsumerState<SignUp> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Already have an account?"),
+                        const Text("Don't have an account?"),
                         TextButton(
                             onPressed: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const SignIn(),
-                                  ));
+                                      builder: (context) => const SignUp()));
                             },
                             child: const Text(
-                              "Sign In",
+                              "Sign Up",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, color: green3),
                             )),

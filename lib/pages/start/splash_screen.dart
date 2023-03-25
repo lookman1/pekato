@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:pekato/controllers/auth_controller.dart';
-import 'package:pekato/model/pages/auth/signup.dart';
+import 'package:pekato/pages/auth/signup.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
-import 'package:pekato/model/pages/role/administator/admin/home_admin.dart';
-import 'package:pekato/model/pages/role/administator/petugas/home_petugas.dart';
-import 'package:pekato/model/pages/role/user/home_user.dart';
-import 'package:pekato/model/pages/start/welcome.dart';
+import 'package:pekato/pages/role/administator/admin/home_admin.dart';
+import 'package:pekato/pages/role/administator/petugas/home_petugas.dart';
+import 'package:pekato/pages/role/user/home_user.dart';
+import 'package:pekato/pages/start/welcome.dart';
 
 class Splash extends ConsumerStatefulWidget {
   const Splash({super.key});

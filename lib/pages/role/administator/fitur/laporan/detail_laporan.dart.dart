@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-import '../../../../../laporan.dart';
+import '../../../../../model/laporan.dart';
 
 class DetailLaporan extends StatefulWidget {
   final Laporan? laporan;
