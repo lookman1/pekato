@@ -43,6 +43,7 @@ class LaporanController extends StateNotifier<Laporan> {
           'tanggal': tanggal,
           'isi': isi,
           'foto': '',
+          'tanggapan': '',
           'status': 'belum ditanggapi'
         });
         final laporan = Laporan(
@@ -54,6 +55,7 @@ class LaporanController extends StateNotifier<Laporan> {
           tanggal: tanggal,
           isi: isi,
           foto: '',
+          tanggapan: '',
           status: 'belum ditanggapi',
         );
         state = laporan;

@@ -7,7 +7,7 @@ import 'package:pekato/pages/role/administator/fitur/data_user/data_petugas.dart
 import 'package:pekato/pages/role/administator/fitur/laporan/list_laporan.dart';
 import 'package:pekato/pages/role/user/fitur/form/form_laporan.dart';
 import 'package:pekato/pages/role/user/fitur/notificasi.dart';
-import 'package:pekato/pages/role/user/fitur/riwayat.dart';
+import 'package:pekato/pages/role/user/fitur/laporan/riwayat.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
 import 'package:pekato/styles/color.dart';
 

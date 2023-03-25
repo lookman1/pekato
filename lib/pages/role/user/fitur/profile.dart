@@ -22,6 +22,7 @@ class _ProfileState extends ConsumerState<Profile> {
     final users = ref.watch(authControllerProvider);
 
     return Scaffold(
+      backgroundColor: bgGreen,
       body: SafeArea(
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
           SizedBox(
@@ -36,6 +37,45 @@ class _ProfileState extends ConsumerState<Profile> {
                       color: greenLight,
                       borderRadius: BorderRadius.vertical(
                           bottom: Radius.circular(180.0))),
+                ),
+                Positioned(
+                  left: 30.0,
+                  top: 20.0,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 50.0,
+                        height: 50.0,
+                        decoration: const BoxDecoration(
+                            color: bgbutton,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0))),
+                        child: Center(
+                          child: IconButton(
+                            iconSize: 30.0,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back_ios_new,
+                              color: Colors.white,
+                            ),
+                            hoverColor: green2,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 98.0,
+                      ),
+                      const Text(
+                        "Profile",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.w500),
+                      )
+                    ],
+                  ),
                 ),
                 // Widget kedua yang akan ditempatkan di atas widget pertama
                 Positioned(
@@ -59,7 +99,7 @@ class _ProfileState extends ConsumerState<Profile> {
             child: Text(
               ('${users.nama}'),
               style: const TextStyle(
-                  color: green4, fontSize: 27.0, fontWeight: FontWeight.w400),
+                  color: green4, fontSize: 29.0, fontWeight: FontWeight.w500),
             ),
           ),
           const SizedBox(
@@ -81,10 +121,13 @@ class _ProfileState extends ConsumerState<Profile> {
                         hintText: 'Masyarakat',
                         hintStyle: TextStyle(
                             color: green4,
-                            fontSize: 20.0,
+                            fontSize: 23.0,
                             fontWeight: FontWeight.w400),
-                        prefixIcon:
-                            Icon(Icons.settings_accessibility, color: green4),
+                        prefixIcon: Icon(
+                          Icons.settings_accessibility,
+                          color: green4,
+                          size: 35.0,
+                        ),
                         suffixIcon: Icon(
                           Icons.settings_accessibility_rounded,
                           color: Colors.white,
@@ -105,10 +148,13 @@ class _ProfileState extends ConsumerState<Profile> {
                         hintText: '${users.nik}',
                         hintStyle: const TextStyle(
                             color: green4,
-                            fontSize: 20.0,
+                            fontSize: 22.0,
                             fontWeight: FontWeight.w400),
-                        prefixIcon: const Icon(Icons.person_outline_rounded,
-                            color: green4),
+                        prefixIcon: const Icon(
+                          Icons.person_outline_rounded,
+                          color: green4,
+                          size: 35.0,
+                        ),
                         suffixIcon: const Icon(
                           Icons.settings_accessibility_rounded,
                           color: Colors.white,
@@ -129,10 +175,13 @@ class _ProfileState extends ConsumerState<Profile> {
                         hintText: '${users.alamat}',
                         hintStyle: const TextStyle(
                             color: green4,
-                            fontSize: 20.0,
+                            fontSize: 23.0,
                             fontWeight: FontWeight.w400),
-                        prefixIcon: const Icon(Icons.location_on_outlined,
-                            color: green4),
+                        prefixIcon: const Icon(
+                          Icons.location_on_outlined,
+                          color: green4,
+                          size: 35.0,
+                        ),
                         suffixIcon: const Icon(
                           Icons.settings_accessibility_rounded,
                           color: Colors.white,
@@ -153,10 +202,13 @@ class _ProfileState extends ConsumerState<Profile> {
                         hintText: '${users.telp}',
                         hintStyle: const TextStyle(
                             color: green4,
-                            fontSize: 20.0,
+                            fontSize: 23.0,
                             fontWeight: FontWeight.w400),
-                        prefixIcon: const Icon(Icons.local_phone_outlined,
-                            color: green4),
+                        prefixIcon: const Icon(
+                          Icons.local_phone_outlined,
+                          color: green4,
+                          size: 35.0,
+                        ),
                         suffixIcon: const Icon(
                           Icons.settings_accessibility_rounded,
                           color: Colors.white,
@@ -176,11 +228,12 @@ class _ProfileState extends ConsumerState<Profile> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: 100.0,
+                width: 130.0,
+                height: 45.0,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
+                          borderRadius: BorderRadius.circular(25.0)),
                       backgroundColor: green2,
                     ),
                     onPressed: () async {
@@ -193,18 +246,22 @@ class _ProfileState extends ConsumerState<Profile> {
                         return;
                       }
                     },
-                    child: const Text("Log Out")),
+                    child: const Text(
+                      "Log Out",
+                      style: TextStyle(fontSize: 17.0),
+                    )),
               ),
               const SizedBox(
                 width: 20.0,
               ),
               SizedBox(
-                width: 100.0,
+                width: 130.0,
+                height: 45.0,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      backgroundColor: green2,
+                          borderRadius: BorderRadius.circular(25.0)),
+                      backgroundColor: greenLight,
                     ),
                     onPressed: () async {
                       Navigator.push(
@@ -212,7 +269,8 @@ class _ProfileState extends ConsumerState<Profile> {
                           MaterialPageRoute(
                               builder: (context) => const FormDataUser()));
                     },
-                    child: const Text("Edit")),
+                    child:
+                        const Text("Edit", style: TextStyle(fontSize: 17.0))),
               ),
             ],
           ),

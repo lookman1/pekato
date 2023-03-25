@@ -7,7 +7,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:pekato/pages/role/user/fitur/form/form_laporan.dart';
 import 'package:pekato/pages/role/user/fitur/notificasi.dart';
 import 'package:pekato/pages/role/user/fitur/profile.dart';
-import 'package:pekato/pages/role/user/fitur/riwayat.dart';
+import 'package:pekato/pages/role/user/fitur/laporan/riwayat.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
 import 'package:pekato/styles/color.dart';
 
@@ -102,10 +102,13 @@ class _HomeState extends ConsumerState<HomeUser> {
                           ),
                         ],
                       ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
                       const Padding(
                         padding: EdgeInsets.all(20.0),
                         child: CircleAvatar(
-                          maxRadius: 80,
+                          maxRadius: 100,
                           backgroundImage: AssetImage('assets/img/piks.jpg'),
                           backgroundColor: Colors.white,
                         ),
@@ -117,7 +120,7 @@ class _HomeState extends ConsumerState<HomeUser> {
                           Text(
                             ('${users.nama}'),
                             style: const TextStyle(
-                                fontSize: 23.0,
+                                fontSize: 25.0,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white),
                           ),
@@ -126,7 +129,10 @@ class _HomeState extends ConsumerState<HomeUser> {
                           ),
                           Text(
                             ('${users.nik}'),
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w300),
                           )
                         ],
                       ),
