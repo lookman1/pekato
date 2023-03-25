@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pekato/controllers/auth_controller.dart';
-import 'package:pekato/pages/auth/signin.dart';
-import 'package:pekato/pages/role/user/pages/form/form_data_user.dart';
+import 'package:pekato/model/pages/auth/signin.dart';
+import 'package:pekato/model/pages/role/user/fitur/form/form_data_user.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
 import 'package:riverpod/riverpod.dart';
-import '../../components/session.dart';
+import '../../../components/session.dart';
 
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});
@@ -44,7 +44,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
+                  padding: const EdgeInsets.only(top: 50.0),
                   child: SvgPicture.asset(
                     'assets/svg/auth.svg',
                     height: sizeSvg.height * 0.4,
@@ -230,9 +230,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                               fontSize: 18,
                             ),
                             prefixIcon: const Icon(
-                              Icons.lock_outlined,
+                              Icons.lock_reset,
                               color: green3,
-                              size: 20.0,
+                              size: 25.0,
                             ),
                             suffixIcon: IconButton(
                               color: green4,

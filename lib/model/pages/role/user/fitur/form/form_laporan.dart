@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:pekato/controllers/auth_controller.dart';
 import 'package:pekato/controllers/laporan_controller.dart';
 import 'package:pekato/styles/color.dart';
 
@@ -22,10 +26,19 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
   TextEditingController foto = TextEditingController();
   String _selectedOption = 'Bencana alam';
   DateTime? _selectedDate;
+  // late File _image;
+
+  // Future<void> _getImage() async {
+  //   final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+  //   setState(() {
+  //     _image = File(image!.path);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     final sizeContainer = MediaQuery.of(context).size;
+    final users = ref.watch(authControllerProvider);
     return Scaffold(
       backgroundColor: green2,
       body: ListView(children: [
@@ -44,7 +57,7 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
                 child: Text(
                   "Masukan Data Laporan Anda",
                   style: TextStyle(
-                      color: green4,
+                      color: Colors.white,
                       fontSize: 25.0,
                       fontWeight: FontWeight.w500),
                 ),
@@ -74,32 +87,20 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
                             color: green4),
                       ),
                       TextFormField(
+                        enabled: false,
                         controller: nik,
                         cursorColor: green4,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: green3, width: 2.0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0))),
-                          focusedErrorBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.red, width: 2.0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0))),
-                          errorBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.red, width: 2.0),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0))),
-                          enabledBorder: OutlineInputBorder(
+                          disabledBorder: const OutlineInputBorder(
                               borderSide: BorderSide(width: 1.0, color: green3),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(8.0))),
-                          hintText: "masukan NIK anda",
+                          hintText: '${users.nik}',
+                          hintStyle: TextStyle(fontSize: 15.0, color: green3),
                           isDense: true, // Added this
-                          contentPadding: EdgeInsets.all(10),
+                          contentPadding: const EdgeInsets.all(10),
                         ),
                         style: const TextStyle(fontSize: 15.0),
                       ),
@@ -227,7 +228,7 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
                               borderSide: BorderSide(width: 1.0, color: green3),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(8.0))),
-                          hintText: "masukan nama tempat",
+                          hintText: "masukan tanggal kejadian",
                           isDense: true, // Added this
                           contentPadding: EdgeInsets.all(10),
                         ),
@@ -302,7 +303,9 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
                           decoration:
                               BoxDecoration(border: Border.all(color: green2)),
                           child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                // _getImage();
+                              },
                               child: const Text(
                                 "click disini",
                                 style: TextStyle(color: green2),

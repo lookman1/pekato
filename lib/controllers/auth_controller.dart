@@ -3,11 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
-import 'package:pekato/pages/role/administator/admin/home_admin.dart';
-import 'package:pekato/pages/role/administator/petugas/home_petugas.dart';
-import 'package:pekato/pages/role/user/pages/form/form_data_user.dart';
-import 'package:pekato/pages/role/user/home_user.dart';
-import 'package:pekato/pages/start/welcome.dart';
+import 'package:pekato/model/pages/role/administator/admin/home_admin.dart';
+import 'package:pekato/model/pages/role/administator/petugas/home_petugas.dart';
+import 'package:pekato/model/pages/role/user/fitur/form/form_data_user.dart';
+import 'package:pekato/model/pages/role/user/home_user.dart';
+import 'package:pekato/model/pages/start/welcome.dart';
 import 'package:riverpod/riverpod.dart';
 import '../components/snackbars.dart';
 import '../model/users.dart';
@@ -43,29 +43,46 @@ class AuthController extends StateNotifier<Users> {
       var credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       if (credential.user != null) {
-        var checkUsers = await FirebaseFirestore.instance
+        checkUsers(context);
+        var getData = await FirebaseFirestore.instance
             .collection('users')
             .doc(credential.user!.uid)
             .get();
+        final users = Users.fromJson(getData.data()!);
 
-        final users = Users.fromJson(checkUsers.data()!);
         print(users.role);
-        print(checkUsers.data()!);
+        print(getData.data()!);
         if (users.role == 'user') {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const HomeUser()));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeUser()),
+            (route) => false,
+          );
+          Snackbars().successSnackbars(
+              context,
+              'Login Berhasil, sebagai Masyarakat',
+              'Selamat Datang di Pekato! ');
         } else if (users.role == 'admin') {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const HomeAdmin()));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeAdmin()),
+            (route) => false,
+          );
+          Snackbars().successSnackbars(context, 'Login sebagai Admin Berhasil',
+              'Selamat Datang di Pekato! ');
         } else if (users.role == 'petugas') {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const HomePetugas()));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePetugas()),
+            (route) => false,
+          );
+          Snackbars().successSnackbars(context,
+              'Login sebagai Petugas Berhasil ', 'Selamat Datang di Pekato! ');
         }
         ;
         if (!mounted) return;
       }
-      //   Snackbars().successSnackbars(
-      //       context, 'Berhasil Masuk', 'Selamat Datang di MySpp');
+
       //   Navigator.of(context).popUntil((route) => route.isFirst);
       //   route(context);
     } on FirebaseAuthException catch (e) {
@@ -121,17 +138,79 @@ class AuthController extends StateNotifier<Users> {
           }
         }
         if (!mounted) return;
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const FormDataUser()));
-        //   Snackbars().successSnackbars(
-        //       context, 'Berhasil Masuk', 'Selamat Datang di MySpp');
-        //   Navigator.of(context).popUntil((route) => route.isFirst);
-        //   route(context);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const FormDataUser()),
+          (route) => false,
+        );
+        Snackbars().successSnackbars(
+            context, 'Sign Up berhasil!!', 'Mohon dilengkapi data diri anda! ');
       } else {
         Snackbars().warningSnackbars(context, 'Password anda tidak sesuai',
             "Pastikan kedua password anda sama");
         Navigator.pop(context);
       }
+    } on FirebaseAuthException catch (e) {
+      Snackbars().failedSnackbars(
+          context, 'Email sudah terpakai', "Coba gunakan akun yang lain");
+      //   var error = e.message.toString();
+      //   Snackbars().failedSnackbars(
+      //       context, 'Pastikan semua terisi dengan benar!', error);
+      Navigator.pop(context);
+    }
+  }
+
+  Future<void> tambahPetugas(
+      BuildContext context, String email, String password) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+              child: CircularProgressIndicator.adaptive(
+                backgroundColor: HexColor('#4392A4'),
+              ),
+            ));
+    try {
+      var credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      if (credential.user != null) {
+        var checkUsers = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(credential.user!.uid)
+            .get();
+        if (!checkUsers.exists) {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(credential.user!.uid)
+              .set({
+            'uid': credential.user!.uid,
+            'nama': '',
+            'nik': '',
+            'email': email,
+            'alamat': '',
+            'telp': '',
+            'role': 'petugas',
+          });
+          final users = Users(
+            uid: credential.user!.uid,
+            nama: '',
+            nik: '',
+            email: email,
+            alamat: '',
+            telp: '',
+            role: 'petugas',
+          );
+          state = users;
+        }
+      }
+      if (!mounted) return;
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeAdmin()),
+        (route) => false,
+      );
+      Snackbars().successSnackbars(context, 'Akun berhasil dibuat',
+          'akun petugas baru sudah bisa digunakan');
     } on FirebaseAuthException catch (e) {
       Snackbars().failedSnackbars(
           context, 'Email sudah terpakai', "Coba gunakan akun yang lain");
@@ -225,8 +304,11 @@ class AuthController extends StateNotifier<Users> {
           );
           state = users;
         }
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const HomeUser()));
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeUser()),
+          (route) => false,
+        );
       }
     } on FirebaseAuthException catch (e) {
       //   var error = e.message.toString();

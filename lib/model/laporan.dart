@@ -1,5 +1,6 @@
 class Laporan {
   String? nik;
+  String? nama;
   String? uid;
   String? tempat;
   String? jenis;
@@ -10,6 +11,7 @@ class Laporan {
 
   Laporan({
     this.nik,
+    this.nama,
     this.uid,
     this.tempat,
     this.jenis,
@@ -22,6 +24,7 @@ class Laporan {
   factory Laporan.fromJson(Map<String, dynamic> json) {
     return Laporan(
       nik: json['nik'],
+      nama: json['nama'],
       uid: json['uid'],
       tempat: json['tempat'],
       jenis: json['jenis'],
@@ -35,6 +38,7 @@ class Laporan {
   Map<String, dynamic> toJson() {
     return {
       'nik': nik,
+      'nama': nama,
       'uid': uid,
       'tempat': tempat,
       'jenis': jenis,
@@ -47,6 +51,7 @@ class Laporan {
 
   Laporan copyWith({
     String? nik,
+    String? nama,
     String? uid,
     String? tempat,
     String? jenis,
@@ -57,6 +62,7 @@ class Laporan {
   }) {
     return Laporan(
       nik: nik ?? this.nik,
+      nama: nama ?? this.nama,
       uid: uid ?? this.uid,
       tempat: tempat ?? this.tempat,
       jenis: jenis ?? this.jenis,

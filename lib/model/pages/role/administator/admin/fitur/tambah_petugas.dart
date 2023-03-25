@@ -6,23 +6,22 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pekato/controllers/auth_controller.dart';
-import 'package:pekato/pages/auth/signup.dart';
-import 'package:pekato/pages/role/administator/admin/home_admin.dart';
-import 'package:pekato/pages/role/user/home_user.dart';
-import 'package:pekato/pages/role/user/pages/profile.dart';
+import 'package:pekato/model/pages/auth/reset_pass.dart';
+import 'package:pekato/model/pages/auth/signup.dart';
+import 'package:pekato/model/pages/role/administator/admin/home_admin.dart';
+import 'package:pekato/model/pages/role/user/home_user.dart';
+import 'package:pekato/model/pages/role/user/fitur/profile.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
 
-import '../../components/session.dart';
-
-class SignIn extends ConsumerStatefulWidget {
-  const SignIn({super.key});
+class TambahPetugas extends ConsumerStatefulWidget {
+  const TambahPetugas({super.key});
 
   @override
-  ConsumerState<SignIn> createState() => _SignInState();
+  ConsumerState<TambahPetugas> createState() => _TambahPetugasState();
 }
 
-class _SignInState extends ConsumerState<SignIn> {
+class _TambahPetugasState extends ConsumerState<TambahPetugas> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -46,9 +45,9 @@ class _SignInState extends ConsumerState<SignIn> {
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
+                  padding: const EdgeInsets.only(top: 80.0, bottom: 20.0),
                   child: SvgPicture.asset(
-                    'assets/svg/auth.svg',
+                    'assets/svg/petugas.svg',
                     height: sizeSvg.height * 0.4,
                   ),
                 ),
@@ -58,7 +57,7 @@ class _SignInState extends ConsumerState<SignIn> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Sign In',
+                    'Tambah Petugas',
                     style: TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.w500,
@@ -107,7 +106,7 @@ class _SignInState extends ConsumerState<SignIn> {
                                     BorderSide(width: 2.0, color: green3),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            hintText: "Masukan email anda",
+                            hintText: "Masukan email petugas",
                             hintStyle: TextStyle(
                               fontSize: 18,
                             ),
@@ -130,58 +129,41 @@ class _SignInState extends ConsumerState<SignIn> {
                       child: TextFormField(
                         cursorColor: green4,
                         controller: password,
-                        obscureText: passenable,
                         validator: ((value) {
                           if (value!.isEmpty) {
                             return 'Password tidak boleh kosong';
                           }
                           return null;
                         }),
-                        decoration: InputDecoration(
-                            focusedBorder: const OutlineInputBorder(
+                        decoration: const InputDecoration(
+                            focusedBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: green3, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            focusedErrorBorder: const OutlineInputBorder(
+                            focusedErrorBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 3.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            errorBorder: const OutlineInputBorder(
+                            errorBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.red, width: 2.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            enabledBorder: const OutlineInputBorder(
+                            enabledBorder: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(width: 2.0, color: green3),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
-                            hintText: "Masukan password anda",
-                            hintStyle: const TextStyle(
+                            hintText: "Masukan password petugas",
+                            hintStyle: TextStyle(
                               fontSize: 18,
                             ),
-                            prefixIcon: const Icon(
+                            prefixIcon: Icon(
                               Icons.lock_outline_rounded,
                               color: green3,
                               size: 24.0,
-                            ),
-                            suffixIcon: IconButton(
-                              color: green4,
-                              splashColor: Colors.transparent,
-                              onPressed: () {
-                                setState(() {
-                                  if (passenable) {
-                                    passenable = false;
-                                  } else {
-                                    passenable = true;
-                                  }
-                                });
-                              },
-                              icon: Icon(passenable == true
-                                  ? Icons.visibility_off_rounded
-                                  : Icons.visibility_rounded),
                             ),
                             labelText: "password",
                             labelStyle: TextStyle(color: green3),
@@ -189,23 +171,9 @@ class _SignInState extends ConsumerState<SignIn> {
                             contentPadding: EdgeInsets.all(15)),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 25.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Forgot Password?',
-                              style: TextStyle(
-                                color: green3,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    const SizedBox(
+                      height: 30.0,
+                    )
                   ],
                 ),
               ),
@@ -217,25 +185,16 @@ class _SignInState extends ConsumerState<SignIn> {
                   children: [
                     ElevatedButton(
                       onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          try {
-                            await ref
-                                .read(authControllerProvider.notifier)
-                                .login(context, email.text, password.text);
-                            password.clear();
-                            setState(() {});
-                            await createSession(
-                                FirebaseAuth.instance.currentUser!.uid);
-                            log(getSession().toString());
-                            if (!mounted) return;
-                          } catch (e) {
-                            print(e);
-                          }
+                        if (_formKey.currentState!.validate()) {}
+                        try {
+                          await ref
+                              .read(authControllerProvider.notifier)
+                              .tambahPetugas(
+                                  context, email.text, password.text);
+                          password.clear();
+                        } catch (e) {
+                          print(e);
                         }
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const Profile()));
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: green3,
@@ -244,30 +203,12 @@ class _SignInState extends ConsumerState<SignIn> {
                       child: const Padding(
                         padding: EdgeInsets.all(12.0),
                         child: Text(
-                          'Login',
+                          'Tambah',
                           style: TextStyle(
                               fontSize: 20.0, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("Don't have an account?"),
-                        TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const SignUp()));
-                            },
-                            child: const Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, color: green3),
-                            )),
-                      ],
-                    )
                   ],
                 ),
               )

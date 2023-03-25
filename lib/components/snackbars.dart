@@ -107,7 +107,7 @@ class Snackbars {
           child: const Icon(Icons.warning)),
       animateFrom: AnimateFrom.fromBottom,
       duration: const Duration(milliseconds: 3500),
-      backgroundColor: Color.fromARGB(255, 224, 202, 8),
+      backgroundColor: Colors.yellow,
       titleWidget: Text(
         title,
         style: const TextStyle(

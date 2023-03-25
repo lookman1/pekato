@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pekato/pages/auth/signin.dart';
-import 'package:pekato/pages/auth/signup.dart';
-import '../../styles/color.dart';
+import 'package:pekato/model/pages/auth/signin.dart';
+import 'package:pekato/model/pages/auth/signup.dart';
+import '../../../styles/color.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({super.key});

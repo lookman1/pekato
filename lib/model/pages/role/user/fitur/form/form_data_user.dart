@@ -5,10 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
 import 'package:pekato/controllers/auth_controller.dart';
 import 'package:pekato/controllers/laporan_controller.dart';
-import 'package:pekato/pages/role/user/home_user.dart';
+import 'package:pekato/model/pages/role/user/home_user.dart';
 import 'package:pekato/styles/color.dart';
 
-import '../../../../../model/users.dart';
+import '../../../../../users.dart';
 
 class FormDataUser extends ConsumerStatefulWidget {
   const FormDataUser({super.key});
@@ -317,7 +317,7 @@ class _FormDataUserState extends ConsumerState<FormDataUser> {
                                             borderRadius:
                                                 BorderRadius.circular(25.0))),
                                     child: const Text(
-                                      "Submit",
+                                      "Simpan",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500),
                                     )),

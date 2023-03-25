@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:pekato/pages/role/administator/admin/home_admin.dart';
-import 'package:pekato/pages/role/user/pages/form/form_data_user.dart';
-import 'package:pekato/pages/role/user/home_user.dart';
-import 'package:pekato/pages/start/welcome.dart';
+import 'package:pekato/model/pages/role/administator/admin/home_admin.dart';
+import 'package:pekato/model/pages/role/user/fitur/form/form_data_user.dart';
+import 'package:pekato/model/pages/role/user/home_user.dart';
+import 'package:pekato/model/pages/start/welcome.dart';
 import 'package:riverpod/riverpod.dart';
 import '../components/snackbars.dart';
 import '../model/laporan.dart';
@@ -28,23 +28,33 @@ class LaporanController extends StateNotifier<Laporan> {
     try {
       final currentUser = FirebaseAuth.instance.currentUser;
       if (currentUser != null) {
+        var getData = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUser.uid)
+            .get();
+        final users = Users.fromJson(getData.data()!);
+
         await FirebaseFirestore.instance.collection('laporan').doc().set({
-          'nik': nik,
+          'nik': users.nik,
+          'nama': users.nama,
           'uid': currentUser.uid,
           'tempat': tempat,
           'jenis': jenis,
           'tanggal': tanggal,
           'isi': isi,
           'foto': '',
+          'status': 'belum ditanggapi'
         });
         final laporan = Laporan(
-          nik: nik,
+          nik: users.nik,
+          nama: users.nama,
           uid: currentUser.uid,
           tempat: tempat,
           jenis: jenis,
           tanggal: tanggal,
           isi: isi,
           foto: '',
+          status: 'belum ditanggapi',
         );
         state = laporan;
       }
