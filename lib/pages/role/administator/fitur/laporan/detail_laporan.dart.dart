@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-
-import '../../../../../model/laporan.dart';
+import 'package:pekato/styles/color.dart';
 
 class DetailLaporan extends StatefulWidget {
-  final Laporan? laporan;
   const DetailLaporan({super.key, required this.laporan});
+  final Map<dynamic, dynamic> laporan;
 
   @override
   State<DetailLaporan> createState() => _DetailLaporanState();
@@ -15,10 +12,28 @@ class DetailLaporan extends StatefulWidget {
 class _DetailLaporanState extends State<DetailLaporan> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("as"),
-      ),
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      body: SafeArea(
+          child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            Container(
+              width: size.width * 1,
+              decoration: BoxDecoration(
+                  color: greenLight, borderRadius: BorderRadius.circular(20.0)),
+              child: Text(
+                widget.laporan['nama_laporan'].toString(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
+            )
+          ],
+        ),
+      )),
     );
   }
 }

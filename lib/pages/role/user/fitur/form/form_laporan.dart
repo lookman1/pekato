@@ -40,7 +40,7 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
     final sizeContainer = MediaQuery.of(context).size;
     final users = ref.watch(authControllerProvider);
     return Scaffold(
-      backgroundColor: green2,
+      backgroundColor: greenLight,
       body: ListView(children: [
         SafeArea(
             child: Form(
@@ -49,21 +49,46 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 40.0,
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30.0),
-                child: Text(
-                  "Masukan Data Laporan Anda",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.w500),
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0, top: 15.0),
+                child: Container(
+                  width: 50.0,
+                  height: 50.0,
+                  decoration: const BoxDecoration(
+                      color: bgbutton,
+                      borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                  child: Center(
+                    child: IconButton(
+                      iconSize: 30.0,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new,
+                        color: Colors.white,
+                      ),
+                      hoverColor: green2,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(
-                height: 60.0,
+                height: 20.0,
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30.0),
+                child: Center(
+                  child: Text(
+                    "Masukan Data Laporan Anda",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 30.0,
               ),
               Container(
                 height: sizeContainer.height * 0.9,
@@ -298,7 +323,7 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
                       ),
                       SizedBox(
                         height: 147.0,
-                        width: 350.0,
+                        width: sizeContainer.width * 1,
                         child: Container(
                           decoration:
                               BoxDecoration(border: Border.all(color: green2)),
@@ -336,7 +361,7 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: green2,
+                                  backgroundColor: greenLight,
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(25.0)),

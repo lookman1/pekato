@@ -3,11 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pekato/firebase_options.dart';
-import 'package:pekato/model/pages/role/administator/fitur/laporan/detail_laporan.dart.dart';
-import 'package:pekato/model/pages/role/administator/fitur/laporan/list_laporan.dart';
-import 'package:pekato/model/pages/role/user/home_user.dart';
-import 'package:pekato/model/pages/role/user/fitur/profile.dart';
-import 'package:pekato/model/pages/start/splash_screen.dart';
+import 'package:pekato/pages/role/administator/fitur/laporan/detail_laporan.dart.dart';
+import 'package:pekato/pages/role/administator/fitur/laporan/list_laporan.dart';
+import 'package:pekato/pages/role/user/home_user.dart';
+import 'package:pekato/pages/role/user/fitur/profile.dart';
+import 'package:pekato/pages/start/splash_screen.dart';
 import 'components/session.dart';
 
 Future<void> main() async {

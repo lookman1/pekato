@@ -49,36 +49,56 @@ class _HomeState extends ConsumerState<HomeUser> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconButton(
-                            iconSize: 30.0,
-                            alignment: Alignment.centerRight,
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Profile()));
-                            },
-                            icon: const Icon(
-                              Icons.mode_edit_outlined,
-                              color: Colors.white,
+                          Container(
+                            width: 50.0,
+                            height: 50.0,
+                            decoration: const BoxDecoration(
+                                color: bgbutton,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25.0))),
+                            child: Center(
+                              child: IconButton(
+                                iconSize: 30.0,
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Profile()));
+                                },
+                                icon: const Icon(
+                                  Icons.mode_edit_outlined,
+                                  color: Colors.white,
+                                ),
+                                hoverColor: green2,
+                              ),
                             ),
-                            hoverColor: green2,
                           ),
-                          IconButton(
-                            iconSize: 30.0,
-                            alignment: Alignment.centerRight,
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const Notifikasi()));
-                            },
-                            icon: const Icon(
-                              Icons.notifications_outlined,
-                              color: Colors.white,
+                          Container(
+                            width: 50.0,
+                            height: 50.0,
+                            decoration: const BoxDecoration(
+                                color: bgbutton,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25.0))),
+                            child: Center(
+                              child: IconButton(
+                                iconSize: 30.0,
+                                alignment: Alignment.centerRight,
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Notifikasi()));
+                                },
+                                icon: const Icon(
+                                  Icons.notifications_outlined,
+                                  color: Colors.white,
+                                ),
+                                hoverColor: green2,
+                              ),
                             ),
-                            hoverColor: green2,
                           ),
                         ],
                       ),

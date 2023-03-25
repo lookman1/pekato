@@ -135,6 +135,8 @@ class _SignInState extends ConsumerState<SignIn> {
                         validator: ((value) {
                           if (value!.isEmpty) {
                             return 'Password tidak boleh kosong';
+                          } else if (value.length <= 8) {
+                            return 'password minimal 8 karakter';
                           }
                           return null;
                         }),

@@ -154,10 +154,12 @@ class _FormDataUserState extends ConsumerState<FormDataUser> {
                           TextFormField(
                             cursorColor: green4,
                             controller: nik,
-                            keyboardType: TextInputType.name,
+                            keyboardType: TextInputType.number,
                             validator: ((value) {
                               if (value!.isEmpty) {
                                 return 'NIK tidak boleh kosong';
+                              } else if (value.length <= 16) {
+                                return 'NIK tidak lengkap';
                               }
                               return null;
                             }),
@@ -252,6 +254,8 @@ class _FormDataUserState extends ConsumerState<FormDataUser> {
                             validator: ((value) {
                               if (value!.isEmpty) {
                                 return 'No Telepon tidak boleh kosong';
+                              } else if (value.length <= 11) {
+                                return 'No Telepon tidak lengkap';
                               }
                               return null;
                             }),

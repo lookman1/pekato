@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:pekato/pages/role/administator/fitur/laporan/detail_laporan.dart.dart';
+import 'package:pekato/pages/role/user/fitur/laporan/detail_laporan.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:pekato/model/laporan.dart';
 
@@ -226,9 +227,8 @@ class ListViewLaporan extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const DetailLaporan(
-                                            laporan: null,
-                                          )));
+                                      builder: (context) =>
+                                          const DetailLaporanUser()));
                             },
                             icon: const Icon(
                               Icons.arrow_forward_ios_rounded,

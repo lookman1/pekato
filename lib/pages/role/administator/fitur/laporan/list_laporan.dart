@@ -215,8 +215,8 @@ class ListViewLaporan extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const DetailLaporan(
-                                            laporan: null,
+                                      builder: (context) => DetailLaporan(
+                                            laporan: _laporanItems[index],
                                           )));
                             },
                             icon: const Icon(

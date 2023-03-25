@@ -3,11 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:logger/logger.dart';
-import 'package:pekato/model/pages/role/administator/admin/home_admin.dart';
-import 'package:pekato/model/pages/role/administator/petugas/home_petugas.dart';
-import 'package:pekato/model/pages/role/user/fitur/form/form_data_user.dart';
-import 'package:pekato/model/pages/role/user/home_user.dart';
-import 'package:pekato/model/pages/start/welcome.dart';
+import 'package:pekato/pages/role/administator/admin/home_admin.dart';
+import 'package:pekato/pages/role/administator/petugas/home_petugas.dart';
+import 'package:pekato/pages/role/user/fitur/form/form_data_user.dart';
+import 'package:pekato/pages/role/user/home_user.dart';
+import 'package:pekato/pages/start/welcome.dart';
 import 'package:riverpod/riverpod.dart';
 import '../components/snackbars.dart';
 import '../model/users.dart';
@@ -309,6 +309,8 @@ class AuthController extends StateNotifier<Users> {
           MaterialPageRoute(builder: (context) => const HomeUser()),
           (route) => false,
         );
+        Snackbars().successSnackbars(
+            context, 'Selamat datang!', 'Data berhasil disimpan');
       }
     } on FirebaseAuthException catch (e) {
       //   var error = e.message.toString();
