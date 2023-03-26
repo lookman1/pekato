@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -105,8 +107,8 @@ class _DetailLaporanUserState extends State<DetailLaporanUser> {
                     child: SizedBox(
                         height: 200.0,
                         width: size.width * 1,
-                        child: Image.asset(
-                          'assets/img/piks.jpg',
+                        child: Image.network(
+                          '${widget.laporan['foto_laporan']}',
                         )),
                   ),
 

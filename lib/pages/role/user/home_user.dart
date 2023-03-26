@@ -36,7 +36,7 @@ class _HomeState extends ConsumerState<HomeUser> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             Container(
-              height: sizeContainer.height * 0.7,
+              height: sizeContainer.height * 0.65,
               decoration: const BoxDecoration(
                   color: greenLight,
                   borderRadius:

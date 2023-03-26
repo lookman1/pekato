@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -23,22 +25,39 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
   TextEditingController tempat = TextEditingController();
   TextEditingController tanggal = TextEditingController();
   TextEditingController isi = TextEditingController();
-  TextEditingController foto = TextEditingController();
   String _selectedOption = 'Bencana alam';
   DateTime? _selectedDate;
-  // late File _image;
+  PlatformFile? pickedFile;
+  UploadTask? uploadTask;
+  String foto = '';
 
-  // Future<void> _getImage() async {
-  //   final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-  //   setState(() {
-  //     _image = File(image!.path);
-  //   });
-  // }
+  Future getFile() async {
+    final result = await FilePicker.platform.pickFiles();
+    if (result == null) return;
+
+    setState(() {
+      pickedFile = result.files.first;
+    });
+  }
+
+  Future uplaodFile() async {
+    final path = 'Bukti Laporan/${pickedFile!.name}';
+    final file = File(pickedFile!.path!);
+
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTask = ref.putFile(file);
+
+    final snapsot = await uploadTask!.whenComplete(() {});
+
+    final urlImg = await snapsot.ref.getDownloadURL();
+    foto = urlImg.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
     final sizeContainer = MediaQuery.of(context).size;
     final users = ref.watch(authControllerProvider);
+
     return Scaffold(
       backgroundColor: greenLight,
       body: ListView(children: [
@@ -325,17 +344,25 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
                         height: 147.0,
                         width: sizeContainer.width * 1,
                         child: Container(
-                          decoration:
-                              BoxDecoration(border: Border.all(color: green2)),
-                          child: TextButton(
-                              onPressed: () {
-                                // _getImage();
-                              },
-                              child: const Text(
-                                "click disini",
-                                style: TextStyle(color: green2),
-                              )),
-                        ),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: green2)),
+                            child: Column(
+                              children: [
+                                pickedFile == null
+                                    ? TextButton(
+                                        onPressed: getFile,
+                                        child: const Text(
+                                          "click disini",
+                                          style: TextStyle(color: green2),
+                                        ))
+                                    : Expanded(
+                                        child: Image.file(
+                                          File(pickedFile!.path!),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
+                              ],
+                            )),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20.0),
@@ -345,6 +372,7 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
                             child: ElevatedButton(
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
+                                    await uplaodFile();
                                     try {
                                       await ref
                                           .read(laporanControllerProvider
@@ -356,7 +384,8 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
                                               _selectedOption,
                                               tanggal.text,
                                               isi.text,
-                                              foto.text);
+                                              foto);
+                                      print('aaa $foto');
                                     } catch (e) {}
                                   }
                                 },

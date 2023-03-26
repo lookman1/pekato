@@ -49,7 +49,7 @@ class _SignInState extends ConsumerState<SignIn> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 80.0, bottom: 20.0),
                   child: SvgPicture.asset(
-                    'assets/svg/login.svg',
+                    'assets/svg/signin.svg',
                     height: sizeSvg.height * 0.36,
                   ),
                 ),
@@ -207,7 +207,7 @@ class _SignInState extends ConsumerState<SignIn> {
                             child: const Text(
                               'Forgot Password?',
                               style: TextStyle(
-                                color: green3,
+                                color: greenLight,
                               ),
                             ),
                           ),
@@ -246,7 +246,7 @@ class _SignInState extends ConsumerState<SignIn> {
                         //         builder: (context) => const Profile()));
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: green3,
+                          backgroundColor: greenLight,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25.0))),
                       child: const Padding(
@@ -272,7 +272,8 @@ class _SignInState extends ConsumerState<SignIn> {
                             child: const Text(
                               "Sign Up",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, color: green3),
+                                  fontWeight: FontWeight.bold,
+                                  color: greenLight),
                             )),
                       ],
                     )

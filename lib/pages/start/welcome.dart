@@ -48,7 +48,7 @@ class Welcome extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                  backgroundColor: green2,
+                  backgroundColor: greenLight,
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.horizontal(
                           left: Radius.circular(20.0)))),
@@ -72,7 +72,7 @@ class Welcome extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                  backgroundColor: green3,
+                  backgroundColor: greenLite,
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.horizontal(
                           right: Radius.circular(20.0)))),

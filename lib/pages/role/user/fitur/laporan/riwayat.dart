@@ -127,7 +127,11 @@ class _RiwayatState extends State<Riwayat> {
                       borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   child: _laporanItems.isEmpty
                       ? const Center(
-                          child: Text("Data Tidak ditemukan"),
+                          child: Text(
+                            "Anda Belum Mengimkan Laporan !",
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
+                          ),
                         )
                       : ListViewLaporan(laporanItems: _laporanItems),
                 ),
@@ -140,7 +144,57 @@ class _RiwayatState extends State<Riwayat> {
                 style: TextStyle(
                     color: green4, fontSize: 25.0, fontWeight: FontWeight.bold),
               ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.all(7.0),
+              child: SingleChildScrollView(
+                child: Container(
+                  height: 355.0,
+                  width: size.width * 1,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  child: _laporanItems.isEmpty
+                      ? const Center(
+                          child: Text(
+                            "Anda Belum Mengimkan Laporan !",
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      : ListViewLaporan(laporanItems: _laporanItems),
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 50.0, top: 10.0),
+              child: Text(
+                "Laporan Tuntas",
+                style: TextStyle(
+                    color: green4, fontSize: 25.0, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(7.0),
+              child: SingleChildScrollView(
+                child: Container(
+                  height: 355.0,
+                  width: size.width * 1,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  child: _laporanItems.isEmpty
+                      ? const Center(
+                          child: Text(
+                            "Anda Belum Mengimkan Laporan !",
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      : ListViewLaporan(laporanItems: _laporanItems),
+                ),
+              ),
+            ),
           ],
         ),
       ])),

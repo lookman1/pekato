@@ -293,7 +293,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                         //         builder: (context) => const FormDataUser()));
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: green3,
+                          backgroundColor: greenLight,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25.0))),
                       child: const Padding(
@@ -320,7 +320,8 @@ class _SignUpState extends ConsumerState<SignUp> {
                             child: const Text(
                               "Sign In",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, color: green3),
+                                  fontWeight: FontWeight.bold,
+                                  color: greenLight),
                             )),
                       ],
                     )

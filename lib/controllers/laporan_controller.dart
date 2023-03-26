@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:pekato/pages/role/administator/admin/home_admin.dart';
@@ -7,6 +8,8 @@ import 'package:pekato/pages/role/user/fitur/form/form_data_user.dart';
 import 'package:pekato/pages/role/user/home_user.dart';
 import 'package:pekato/pages/start/welcome.dart';
 import 'package:riverpod/riverpod.dart';
+import 'package:path/path.dart';
+import 'dart:io';
 import '../components/snackbars.dart';
 import '../model/laporan.dart';
 import '../model/users.dart';
@@ -16,6 +19,14 @@ class LaporanController extends StateNotifier<Laporan> {
 
   Future<void> kirimLaporan(BuildContext context, String nik, String tempat,
       String jenis, String tanggal, String isi, String foto) async {
+    // String fileName = basename(imgFile.path);
+    // FirebaseStorage storage = FirebaseStorage.instance;
+    // Reference ref = storage.ref().child(fileName);
+    // UploadTask task = ref.putFile(imgFile);
+    // final url = task.then((res) {
+    //   res.ref.getDownloadURL();
+    // });
+
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -42,7 +53,7 @@ class LaporanController extends StateNotifier<Laporan> {
           'jenis': jenis,
           'tanggal': tanggal,
           'isi': isi,
-          'foto': '',
+          'foto': foto,
           'tanggapan': '',
           'status': 'belum ditanggapi'
         });
@@ -54,7 +65,7 @@ class LaporanController extends StateNotifier<Laporan> {
           jenis: jenis,
           tanggal: tanggal,
           isi: isi,
-          foto: '',
+          foto: foto,
           tanggapan: '',
           status: 'belum ditanggapi',
         );
