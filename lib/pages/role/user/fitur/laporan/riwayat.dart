@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:pekato/pages/role/administator/fitur/laporan/detail_laporan.dart.dart';
 import 'package:pekato/pages/role/user/fitur/laporan/detail_laporan_user.dart';
+import 'package:pekato/pages/role/user/fitur/laporan/edit_laporan.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:pekato/model/laporan.dart';
 
@@ -21,16 +22,33 @@ class _RiwayatState extends State<Riwayat> {
   final CollectionReference _collection =
       FirebaseFirestore.instance.collection('laporan');
   late Future<QuerySnapshot> _futureLaporan;
+  late Future<QuerySnapshot> _futureLaporanProses;
+  late Future<QuerySnapshot> _futureLaporanTuntas;
   List<Map> _laporanItems = [];
+  List<Map> _laporanProsesItems = [];
+  List<Map> _laporanTuntasItems = [];
   QuerySnapshot<Map<String, dynamic>>? dataLaporan;
 
   @override
   void initState() {
     super.initState();
     _futureLaporan = getData();
+    _futureLaporanProses = getDataProses();
+    _futureLaporanTuntas = getDataTuntas();
+
     _futureLaporan.then((value) {
       setState(() {
         _laporanItems = parseData(value);
+      });
+    });
+    _futureLaporanProses.then((value) {
+      setState(() {
+        _laporanProsesItems = parseData(value);
+      });
+    });
+    _futureLaporanTuntas.then((value) {
+      setState(() {
+        _laporanTuntasItems = parseData(value);
       });
     });
   }
@@ -40,6 +58,27 @@ class _RiwayatState extends State<Riwayat> {
     final data = FirebaseFirestore.instance
         .collection('laporan')
         .where('uid', isEqualTo: currentuser!.uid)
+        .where('status', isEqualTo: "terkirim")
+        .get();
+    return data;
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getDataTuntas() async {
+    final currentuser = FirebaseAuth.instance.currentUser;
+    final data = FirebaseFirestore.instance
+        .collection('laporan')
+        .where('uid', isEqualTo: currentuser!.uid)
+        .where('status', isEqualTo: "terkirim")
+        .get();
+    return data;
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getDataProses() async {
+    final currentuser = FirebaseAuth.instance.currentUser;
+    final data = FirebaseFirestore.instance
+        .collection('laporan')
+        .where('uid', isEqualTo: currentuser!.uid)
+        .where('status', isEqualTo: "proses")
         .get();
     return data;
   }
@@ -99,11 +138,11 @@ class _RiwayatState extends State<Riwayat> {
                     ),
                   ),
                   const SizedBox(
-                    width: 20.0,
+                    width: 30.0,
                   ),
                   const Center(
                     child: Text(
-                      "Riwayat Laporan",
+                      "Daftar Laporan",
                       style: TextStyle(
                           fontSize: 25.0,
                           fontWeight: FontWeight.bold,
@@ -111,6 +150,16 @@ class _RiwayatState extends State<Riwayat> {
                     ),
                   ),
                 ],
+              ),
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            const Center(
+              child: Text(
+                "Riwayat Laporan",
+                style: TextStyle(
+                    fontSize: 25.0, fontWeight: FontWeight.bold, color: green4),
               ),
             ),
             const SizedBox(
@@ -138,11 +187,15 @@ class _RiwayatState extends State<Riwayat> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(left: 50.0, top: 10.0),
-              child: Text(
-                "Laporan Tertanggapi",
-                style: TextStyle(
-                    color: green4, fontSize: 25.0, fontWeight: FontWeight.bold),
+              padding: EdgeInsets.only(top: 10.0),
+              child: Center(
+                child: Text(
+                  "Laporan Tertanggapi",
+                  style: TextStyle(
+                      color: green4,
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             Padding(
@@ -157,21 +210,26 @@ class _RiwayatState extends State<Riwayat> {
                   child: _laporanItems.isEmpty
                       ? const Center(
                           child: Text(
-                            "Anda Belum Mengimkan Laporan !",
+                            "Belum ada laporan yang ditanggapi",
                             style: TextStyle(
                                 fontSize: 20.0, fontWeight: FontWeight.bold),
                           ),
                         )
-                      : ListViewLaporan(laporanItems: _laporanItems),
+                      : ListViewLaporanProses(
+                          laporanProsesItems: _laporanProsesItems),
                 ),
               ),
             ),
             const Padding(
               padding: EdgeInsets.only(left: 50.0, top: 10.0),
-              child: Text(
-                "Laporan Tuntas",
-                style: TextStyle(
-                    color: green4, fontSize: 25.0, fontWeight: FontWeight.bold),
+              child: Center(
+                child: Text(
+                  "Laporan Tuntas",
+                  style: TextStyle(
+                      color: green4,
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             Padding(
@@ -186,12 +244,13 @@ class _RiwayatState extends State<Riwayat> {
                   child: _laporanItems.isEmpty
                       ? const Center(
                           child: Text(
-                            "Anda Belum Mengimkan Laporan !",
+                            "Belum ada laporan yang tuntas",
                             style: TextStyle(
                                 fontSize: 20.0, fontWeight: FontWeight.bold),
                           ),
                         )
-                      : ListViewLaporan(laporanItems: _laporanItems),
+                      : ListViewLaporanTuntas(
+                          laporanTuntasItems: _laporanTuntasItems),
                 ),
               ),
             ),
@@ -306,6 +365,250 @@ class ListViewLaporan extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => DetailLaporanUser(
                                             laporan: _laporanItems[index],
+                                          )));
+                            },
+                            icon: const Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: Colors.white,
+                              size: 45.0,
+                            ),
+                          ))
+                    ],
+                  ),
+                ),
+              ]),
+            ),
+          );
+        });
+  }
+}
+
+class ListViewLaporanProses extends StatelessWidget {
+  const ListViewLaporanProses({
+    super.key,
+    required List<Map> laporanProsesItems,
+  }) : _laporanProsesItems = laporanProsesItems;
+
+  final List<Map> _laporanProsesItems;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: _laporanProsesItems.length,
+        itemBuilder: (context, index) {
+          Map item = _laporanProsesItems[index];
+          return Padding(
+            padding: const EdgeInsets.all(7.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: greenLight, borderRadius: BorderRadius.circular(20.0)),
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 30.0, vertical: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      "Pengirim",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18.0),
+                                    ),
+                                    Text(
+                                      "Tempat",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18.0),
+                                    ),
+                                    Text(
+                                      "Laporan",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18.0),
+                                    ),
+                                  ]),
+                              const SizedBox(
+                                width: 5.0,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    ': ${item['nama_laporan']}',
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.0),
+                                  ),
+                                  Text(
+                                    ': ${item['tempat_laporan']}',
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.0),
+                                  ),
+                                  Text(
+                                    ': ${item['jenis_laporan']}',
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.0),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: HexColor('72E191'),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailLaporanUser(
+                                            laporan: _laporanProsesItems[index],
+                                          )));
+                            },
+                            icon: const Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: Colors.white,
+                              size: 45.0,
+                            ),
+                          ))
+                    ],
+                  ),
+                ),
+              ]),
+            ),
+          );
+        });
+  }
+}
+
+class ListViewLaporanTuntas extends StatelessWidget {
+  const ListViewLaporanTuntas({
+    super.key,
+    required List<Map> laporanTuntasItems,
+  }) : _laporanTuntasItems = laporanTuntasItems;
+
+  final List<Map> _laporanTuntasItems;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: _laporanTuntasItems.length,
+        itemBuilder: (context, index) {
+          Map item = _laporanTuntasItems[index];
+          return Padding(
+            padding: const EdgeInsets.all(7.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: greenLight, borderRadius: BorderRadius.circular(20.0)),
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 30.0, vertical: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      "Pengirim",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18.0),
+                                    ),
+                                    Text(
+                                      "Tempat",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18.0),
+                                    ),
+                                    Text(
+                                      "Laporan",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18.0),
+                                    ),
+                                  ]),
+                              const SizedBox(
+                                width: 5.0,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    ': ${item['nama_laporan']}',
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.0),
+                                  ),
+                                  Text(
+                                    ': ${item['tempat_laporan']}',
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.0),
+                                  ),
+                                  Text(
+                                    ': ${item['jenis_laporan']}',
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18.0),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                      Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: HexColor('72E191'),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailLaporanUser(
+                                            laporan: _laporanTuntasItems[index],
                                           )));
                             },
                             icon: const Icon(

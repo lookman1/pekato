@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pekato/pages/role/user/fitur/form/form_laporan.dart';
+import 'package:pekato/pages/role/user/fitur/laporan/edit_laporan.dart';
 
 import '../../../../../styles/color.dart';
 
@@ -76,7 +77,7 @@ class _DetailLaporanUserState extends State<DetailLaporanUser> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const FormLaporan()));
+                                  builder: (context) => const EditLaporan()));
                         },
                         icon: const Icon(
                           Icons.mode_edit_outlined,
