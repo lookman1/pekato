@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:pekato/pages/role/administator/admin/home_admin.dart';
 import 'package:pekato/pages/role/user/fitur/form/form_data_user.dart';
+import 'package:pekato/pages/role/user/fitur/laporan/detail_laporan_user.dart';
+import 'package:pekato/pages/role/user/fitur/laporan/riwayat.dart';
 import 'package:pekato/pages/role/user/home_user.dart';
 import 'package:pekato/pages/start/welcome.dart';
 import 'package:riverpod/riverpod.dart';
@@ -17,16 +19,73 @@ import '../model/users.dart';
 class LaporanController extends StateNotifier<Laporan> {
   LaporanController() : super(Laporan());
 
+  Future<void> deleteLaporan(
+    BuildContext context,
+    String idlaporan,
+  ) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+              child: CircularProgressIndicator.adaptive(
+                backgroundColor: HexColor('#4392A4'),
+              ),
+            ));
+    try {
+      await FirebaseFirestore.instance
+          .collection('laporan')
+          .doc(idlaporan)
+          .delete();
+
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const Riwayat()));
+    } on FirebaseAuth catch (error) {}
+  }
+
+  Future<void> updateLaporan(
+      BuildContext context,
+      String idlaporan,
+      String tempat,
+      String jenis,
+      String tanggal,
+      String isi,
+      String foto) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+              child: CircularProgressIndicator.adaptive(
+                backgroundColor: HexColor('#4392A4'),
+              ),
+            ));
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('laporan')
+          .doc(idlaporan)
+          .update({
+        'tempat': tempat,
+        'jenis': jenis,
+        'tanggal': tanggal,
+        'isi': isi,
+        'foto': foto,
+      });
+      final laporan = Laporan(
+        tempat: tempat,
+        jenis: jenis,
+        tanggal: tanggal,
+        isi: isi,
+        foto: foto,
+      );
+      state = laporan;
+
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const Riwayat()));
+    } on FirebaseFirestore catch (e) {}
+  }
+
   Future<void> kirimLaporan(BuildContext context, String nik, String tempat,
       String jenis, String tanggal, String isi, String foto) async {
-    // String fileName = basename(imgFile.path);
-    // FirebaseStorage storage = FirebaseStorage.instance;
-    // Reference ref = storage.ref().child(fileName);
-    // UploadTask task = ref.putFile(imgFile);
-    // final url = task.then((res) {
-    //   res.ref.getDownloadURL();
-    // });
-
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -45,10 +104,12 @@ class LaporanController extends StateNotifier<Laporan> {
             .get();
         final users = Users.fromJson(getData.data()!);
 
-        await FirebaseFirestore.instance.collection('laporan').doc().set({
+        final db = FirebaseFirestore.instance.collection('laporan').doc();
+        await db.set({
           'nik': users.nik,
           'nama': users.nama,
           'uid': currentUser.uid,
+          'idlaporan': db.id,
           'tempat': tempat,
           'jenis': jenis,
           'tanggal': tanggal,
@@ -61,6 +122,7 @@ class LaporanController extends StateNotifier<Laporan> {
           nik: users.nik,
           nama: users.nama,
           uid: currentUser.uid,
+          idlaporan: db.id,
           tempat: tempat,
           jenis: jenis,
           tanggal: tanggal,

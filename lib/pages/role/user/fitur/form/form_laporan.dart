@@ -68,34 +68,49 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0, top: 15.0),
-                child: Container(
-                  width: 50.0,
-                  height: 50.0,
-                  decoration: const BoxDecoration(
-                      color: bgbutton,
-                      borderRadius: BorderRadius.all(Radius.circular(25.0))),
-                  child: Center(
-                    child: IconButton(
-                      iconSize: 30.0,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back_ios_new,
-                        color: Colors.white,
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0, top: 15.0),
+                    child: Container(
+                      width: 50.0,
+                      height: 50.0,
+                      decoration: const BoxDecoration(
+                          color: bgbutton,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(25.0))),
+                      child: Center(
+                        child: IconButton(
+                          iconSize: 30.0,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back_ios_new,
+                            color: Colors.white,
+                          ),
+                          hoverColor: green2,
+                        ),
                       ),
-                      hoverColor: green2,
                     ),
                   ),
-                ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 30.0, top: 15.0),
+                    child: Text(
+                      "Form Laporan",
+                      style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white),
+                    ),
+                  )
+                ],
               ),
               const SizedBox(
-                height: 20.0,
+                height: 30.0,
               ),
               const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30.0),
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: Center(
                   child: Text(
                     "Masukan Data Laporan Anda",
@@ -107,7 +122,7 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
                 ),
               ),
               const SizedBox(
-                height: 30.0,
+                height: 20.0,
               ),
               Container(
                 height: sizeContainer.height * 0.9,
@@ -345,16 +360,32 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
                         width: sizeContainer.width * 1,
                         child: Container(
                             decoration: BoxDecoration(
-                                border: Border.all(color: green2)),
+                                border: Border.all(color: green4),
+                                borderRadius: BorderRadius.circular(15.0)),
                             child: Column(
                               children: [
                                 pickedFile == null
-                                    ? TextButton(
-                                        onPressed: getFile,
-                                        child: const Text(
-                                          "click disini",
-                                          style: TextStyle(color: green2),
-                                        ))
+                                    ? Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 35.0),
+                                            child: Center(
+                                              child: IconButton(
+                                                onPressed: getFile,
+                                                iconSize: 35.0,
+                                                color: green4,
+                                                icon: const Icon(Icons.image),
+                                              ),
+                                            ),
+                                          ),
+                                          const Text(
+                                            "klick disini",
+                                            style: TextStyle(
+                                                color: green4, fontSize: 15.0),
+                                          )
+                                        ],
+                                      )
                                     : Expanded(
                                         child: Image.file(
                                           File(pickedFile!.path!),

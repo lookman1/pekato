@@ -2,6 +2,7 @@ class Laporan {
   String? nik;
   String? nama;
   String? uid;
+  String? idlaporan;
   String? tempat;
   String? jenis;
   String? tanggal;
@@ -14,6 +15,7 @@ class Laporan {
     this.nik,
     this.nama,
     this.uid,
+    this.idlaporan,
     this.tempat,
     this.jenis,
     this.tanggal,
@@ -28,6 +30,7 @@ class Laporan {
       nik: json['nik'],
       nama: json['nama'],
       uid: json['uid'],
+      idlaporan: json['idlaporan'],
       tempat: json['tempat'],
       jenis: json['jenis'],
       tanggal: json['tanggal'],
@@ -43,6 +46,7 @@ class Laporan {
       'nik': nik,
       'nama': nama,
       'uid': uid,
+      'idlaporan': idlaporan,
       'tempat': tempat,
       'jenis': jenis,
       'tanggal': tanggal,
@@ -57,6 +61,7 @@ class Laporan {
     String? nik,
     String? nama,
     String? uid,
+    String? idlaporan,
     String? tempat,
     String? jenis,
     String? tanggal,
@@ -69,6 +74,7 @@ class Laporan {
       nik: nik ?? this.nik,
       nama: nama ?? this.nama,
       uid: uid ?? this.uid,
+      idlaporan: idlaporan ?? this.idlaporan,
       tempat: tempat ?? this.tempat,
       jenis: jenis ?? this.jenis,
       tanggal: tanggal ?? this.tanggal,

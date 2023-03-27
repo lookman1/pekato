@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pekato/model/laporan.dart';
 import 'package:pekato/pages/role/user/fitur/form/form_laporan.dart';
 import 'package:pekato/pages/role/user/fitur/laporan/edit_laporan.dart';
 
@@ -39,8 +40,13 @@ class _DetailLaporanUserState extends State<DetailLaporanUser> {
                     width: 50.0,
                     height: 50.0,
                     decoration: const BoxDecoration(
-                        color: bgbutton,
-                        borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                      color: bgbutton,
+                      boxShadow: [
+                        BoxShadow(
+                            color: green1, blurRadius: 1.0, spreadRadius: 1.0)
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                    ),
                     child: Center(
                       child: IconButton(
                         iconSize: 30.0,
@@ -69,6 +75,10 @@ class _DetailLaporanUserState extends State<DetailLaporanUser> {
                     height: 50.0,
                     decoration: const BoxDecoration(
                         color: bgbutton,
+                        boxShadow: [
+                          BoxShadow(
+                              color: green1, blurRadius: 1.0, spreadRadius: 1.0)
+                        ],
                         borderRadius: BorderRadius.all(Radius.circular(25.0))),
                     child: Center(
                       child: IconButton(
@@ -77,7 +87,9 @@ class _DetailLaporanUserState extends State<DetailLaporanUser> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const EditLaporan()));
+                                  builder: (context) => EditLaporan(
+                                        laporan: widget.laporan,
+                                      )));
                         },
                         icon: const Icon(
                           Icons.mode_edit_outlined,
@@ -96,18 +108,28 @@ class _DetailLaporanUserState extends State<DetailLaporanUser> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Container(
-                height: size.height * 0.75,
+                height: size.height * 0.78,
                 width: size.width * 1,
                 decoration: BoxDecoration(
                     color: greenLight,
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 2.0,
+                          spreadRadius: 2.0)
+                    ],
                     borderRadius: BorderRadius.circular(25.0)),
                 child: Column(children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20.0, vertical: 30.0),
-                    child: SizedBox(
+                    child: Container(
                         height: 200.0,
                         width: size.width * 1,
+                        decoration: BoxDecoration(
+                            color: bgbutton,
+                            border:
+                                Border.all(color: Colors.white, width: 1.0)),
                         child: Image.network(
                           '${widget.laporan['foto_laporan']}',
                         )),
@@ -129,17 +151,30 @@ class _DetailLaporanUserState extends State<DetailLaporanUser> {
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w500,
+                                        shadows: [
+                                          BoxShadow(
+                                              color: Colors.grey,
+                                              blurRadius: 2.0,
+                                              spreadRadius: 5.0)
+                                        ],
                                         fontSize: 22.0),
                                   ),
-                                  const SizedBox(
+                                  SizedBox(
                                     height: 10.0,
                                   ),
                                   Text(
                                     "NIK     ",
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 22.0),
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 22.0,
+                                      shadows: [
+                                        BoxShadow(
+                                            color: green1,
+                                            blurRadius: 1.0,
+                                            spreadRadius: 1.0)
+                                      ],
+                                    ),
                                   ),
                                   const SizedBox(
                                     height: 10.0,
@@ -255,6 +290,7 @@ class _DetailLaporanUserState extends State<DetailLaporanUser> {
                               height: 200,
                               width: size.width * 0.63,
                               decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.white),
                                   color: bgbutton,
                                   borderRadius: BorderRadius.circular(20.0)),
                               child: Padding(
@@ -273,13 +309,48 @@ class _DetailLaporanUserState extends State<DetailLaporanUser> {
                         const SizedBox(
                           height: 10.0,
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 180,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.white,
+                                        blurRadius: 2.0,
+                                        spreadRadius: 1.0)
+                                  ],
+                                  color: bgbutton,
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      "Status",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      ': ${widget.laporan['status_laporan'].toString()}',
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w500),
+                                    )
+                                  ]),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
                 ]),
               ),
             ),
-            Text('asd')
           ],
         ),
       ])),
