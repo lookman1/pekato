@@ -381,8 +381,60 @@ class _HomeState extends ConsumerState<HomeAdmin> {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 120.0,
+            SizedBox(
+              height: 30.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ListPekerjaan()));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.0),
+                        color: greenLight),
+                    child: SizedBox(
+                        height: 60.0,
+                        width: 230.0,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 15.0, bottom: 15.0, left: 10.0),
+                                    child: Text(
+                                      "Generate laporan",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 20.0,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Icon(
+                                    Icons.file_download_outlined,
+                                    color: Colors.white,
+                                    size: 40.0,
+                                  ),
+                                  SizedBox(
+                                    width: 12.0,
+                                  )
+                                ],
+                              ),
+                            ])),
+                  ),
+                ),
+              ],
             ),
           ]),
         ),

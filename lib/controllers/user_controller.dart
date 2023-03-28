@@ -76,6 +76,53 @@ class UserController extends StateNotifier<Users> {
       Navigator.pop(context);
     }
   }
+
+  Future<void> editProfileAdmin(
+    BuildContext context,
+    // String idpetugas,
+    String nama,
+    String noTelp,
+  ) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+              child: CircularProgressIndicator.adaptive(
+                backgroundColor: HexColor('#4392A4'),
+              ),
+            ));
+
+    try {
+      final currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        var getData = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUser.uid)
+            .get();
+        if (getData.exists) {
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(currentUser.uid)
+              .update({
+            'nama': nama,
+            'telp': noTelp,
+          });
+          final users = Users(
+            nama: nama,
+            telp: noTelp,
+          );
+          state = users;
+        }
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeAdmin()),
+          (route) => false,
+        );
+        Snackbars()
+            .successSnackbars(context, 'Data berhasil di perbarui!!', '');
+      }
+    } on FirebaseFirestore catch (e) {}
+  }
 }
 
 final userControllerProvider = StateNotifierProvider<UserController, Users>(
