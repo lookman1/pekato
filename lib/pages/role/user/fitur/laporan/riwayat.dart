@@ -96,6 +96,7 @@ class _RiwayatState extends State<Riwayat> {
               'foto_laporan': data['foto'],
               'status_laporan': data['status'],
               'id_laporan': data['idlaporan'],
+              'tanggapan_laporan': data['tanggapan'],
             })
         .toList();
     return listItems;

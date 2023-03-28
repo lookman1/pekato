@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:pekato/pages/role/administator/admin/home_admin.dart';
+import 'package:pekato/pages/role/administator/fitur/laporan/list_laporan.dart';
 import 'package:pekato/pages/role/user/fitur/form/form_data_user.dart';
 import 'package:pekato/pages/role/user/fitur/laporan/detail_laporan_user.dart';
 import 'package:pekato/pages/role/user/fitur/laporan/riwayat.dart';
@@ -39,6 +40,29 @@ class LaporanController extends StateNotifier<Laporan> {
 
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const Riwayat()));
+    } on FirebaseAuth catch (error) {}
+  }
+
+  Future<void> deleteLaporanAdmin(
+    BuildContext context,
+    String idlaporan,
+  ) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+              child: CircularProgressIndicator.adaptive(
+                backgroundColor: HexColor('#4392A4'),
+              ),
+            ));
+    try {
+      await FirebaseFirestore.instance
+          .collection('laporan')
+          .doc(idlaporan)
+          .delete();
+
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const ListLaporan()));
     } on FirebaseAuth catch (error) {}
   }
 

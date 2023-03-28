@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,20 +17,26 @@ class ListLaporan extends StatefulWidget {
 }
 
 class _ListLaporanState extends State<ListLaporan> {
-  final CollectionReference _collection =
-      FirebaseFirestore.instance.collection('laporan');
   late Future<QuerySnapshot> _futureLaporan;
   List<Map> _laporanItems = [];
 
   @override
   void initState() {
     super.initState();
-    _futureLaporan = _collection.get();
+    _futureLaporan = getData();
     _futureLaporan.then((value) {
       setState(() {
         _laporanItems = parseData(value);
       });
     });
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getData() async {
+    final data = FirebaseFirestore.instance
+        .collection('laporan')
+        .where('status', isEqualTo: "terkirim")
+        .get();
+    return data;
   }
 
   List<Map> parseData(QuerySnapshot querySnapshot) {
@@ -41,6 +48,11 @@ class _ListLaporanState extends State<ListLaporan> {
               'tempat_laporan': data['tempat'],
               'jenis_laporan': data['jenis'],
               'tanggal_laporan': data['tanggal'],
+              'isi_laporan': data['isi'],
+              'foto_laporan': data['foto'],
+              'status_laporan': data['status'],
+              'id_laporan': data['idlaporan'],
+              'tanggapan_laporan': data['tanggapan'],
             })
         .toList();
     return listItems;
