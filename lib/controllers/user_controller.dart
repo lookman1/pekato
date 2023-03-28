@@ -99,6 +99,7 @@ class UserController extends StateNotifier<Users> {
             .collection('users')
             .doc(currentUser.uid)
             .get();
+        final users = Users.fromJson(getData.data()!);
         if (getData.exists) {
           await FirebaseFirestore.instance
               .collection('users')
@@ -113,13 +114,24 @@ class UserController extends StateNotifier<Users> {
           );
           state = users;
         }
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeAdmin()),
-          (route) => false,
-        );
-        Snackbars()
-            .successSnackbars(context, 'Data berhasil di perbarui!!', '');
+
+        if (users.role == 'admin') {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeAdmin()),
+            (route) => false,
+          );
+          Snackbars()
+              .successSnackbars(context, 'Data berhasil di perbarui!!', '');
+        } else if (users.role == 'petugas') {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePetugas()),
+            (route) => false,
+          );
+          Snackbars()
+              .successSnackbars(context, 'Data berhasil di perbarui!!', '');
+        }
       }
     } on FirebaseFirestore catch (e) {}
   }
