@@ -250,7 +250,7 @@ class _FormDataUserState extends ConsumerState<FormDataUser> {
                           TextFormField(
                             cursorColor: green4,
                             controller: noTelp,
-                            keyboardType: TextInputType.name,
+                            keyboardType: TextInputType.number,
                             validator: ((value) {
                               if (value!.isEmpty) {
                                 return 'No Telepon tidak boleh kosong';

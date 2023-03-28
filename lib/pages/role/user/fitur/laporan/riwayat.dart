@@ -8,6 +8,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:pekato/pages/role/administator/fitur/laporan/detail_laporan.dart.dart';
 import 'package:pekato/pages/role/user/fitur/laporan/detail_laporan_user.dart';
 import 'package:pekato/pages/role/user/fitur/laporan/edit_laporan.dart';
+import 'package:pekato/pages/role/user/home_user.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:pekato/model/laporan.dart';
 
@@ -96,6 +97,7 @@ class _RiwayatState extends State<Riwayat> {
               'foto_laporan': data['foto'],
               'status_laporan': data['status'],
               'tanggapan_laporan': data['tanggapan'],
+              'id_laporan': data['idlaporan'],
             })
         .toList();
     return listItems;
@@ -128,7 +130,10 @@ class _RiwayatState extends State<Riwayat> {
                       child: IconButton(
                         iconSize: 30.0,
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomeUser()));
                         },
                         icon: const Icon(
                           Icons.arrow_back_ios_new,

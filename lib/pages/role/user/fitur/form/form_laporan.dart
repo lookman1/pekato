@@ -125,7 +125,7 @@ class _FormLaporanState extends ConsumerState<FormLaporan> {
                 height: 20.0,
               ),
               Container(
-                height: sizeContainer.height * 0.9,
+                height: sizeContainer.height * 0.81,
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius:

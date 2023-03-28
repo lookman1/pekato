@@ -109,7 +109,7 @@ class _HomeState extends ConsumerState<HomeUser> {
                         padding: EdgeInsets.all(20.0),
                         child: CircleAvatar(
                           maxRadius: 100,
-                          backgroundImage: AssetImage('assets/img/piks.jpg'),
+                          backgroundImage: AssetImage('assets/img/anonim.png'),
                           backgroundColor: Colors.white,
                         ),
                       ),
@@ -128,10 +128,10 @@ class _HomeState extends ConsumerState<HomeUser> {
                             height: 5.0,
                           ),
                           Text(
-                            ('${users.role}'.toUpperCase()),
+                            ('Masyarakat'.toUpperCase()),
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20.0,
+                                fontSize: 18.0,
                                 fontWeight: FontWeight.w400),
                           )
                         ],

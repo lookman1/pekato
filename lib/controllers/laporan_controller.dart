@@ -62,8 +62,11 @@ class LaporanController extends StateNotifier<Laporan> {
           .doc(idlaporan)
           .delete();
 
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const ListLaporan()));
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const ListLaporan()),
+        (route) => false,
+      );
     } on FirebaseAuth catch (error) {}
   }
 
@@ -104,8 +107,11 @@ class LaporanController extends StateNotifier<Laporan> {
       );
       state = laporan;
 
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const Riwayat()));
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Riwayat()),
+        (route) => false,
+      );
     } on FirebaseFirestore catch (e) {}
   }
 
@@ -160,18 +166,16 @@ class LaporanController extends StateNotifier<Laporan> {
       }
       Snackbars().successSnackbars(context, 'Succes!', "Laporan Terkirim");
       Navigator.pop(context);
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomeUser()));
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeUser()),
+        (route) => false,
+      );
     } on FirebaseFirestore catch (e) {}
   }
 
   Future<void> kirimTanggapan(
-      BuildContext context,
-      String idlaporan,
-      // String idpetugas,
-      // String nama,
-      // String noTelp,
-      String tanggapan) async {
+      BuildContext context, String idlaporan, String tanggapan) async {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -200,7 +204,7 @@ class LaporanController extends StateNotifier<Laporan> {
 
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const ListLaporan()),
+        MaterialPageRoute(builder: (context) => const HomeAdmin()),
         (route) => false,
       );
       Snackbars().successSnackbars(context, 'Berhasil!!', 'Tanggapan terkirim');
@@ -238,12 +242,13 @@ class LaporanController extends StateNotifier<Laporan> {
       );
       state = laporan;
 
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => const ListLaporan()),
-        // (route) => false,
+        MaterialPageRoute(builder: (context) => const HomeAdmin()),
+        (route) => false,
       );
-      Snackbars().successSnackbars(context, 'Berhasil!!', 'Tanggapan terkirim');
+      Snackbars()
+          .successSnackbars(context, 'Berhasil!!', 'Laporan telah tuntas');
     } on FirebaseFirestore catch (e) {}
   }
 }

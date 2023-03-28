@@ -86,7 +86,7 @@ class _ProfileState extends ConsumerState<Profile> {
                       padding: EdgeInsets.all(20.0),
                       child: CircleAvatar(
                         maxRadius: 90,
-                        backgroundImage: AssetImage('assets/img/piks.jpg'),
+                        backgroundImage: AssetImage('assets/img/anonim.png'),
                         backgroundColor: Colors.white,
                       ),
                     ),

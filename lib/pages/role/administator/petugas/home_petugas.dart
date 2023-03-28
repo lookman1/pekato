@@ -109,7 +109,7 @@ class _HomeState extends ConsumerState<HomePetugas> {
                             horizontal: 20.0, vertical: 10.0),
                         child: CircleAvatar(
                           maxRadius: 80,
-                          backgroundImage: AssetImage('assets/img/piks.jpg'),
+                          backgroundImage: AssetImage('assets/img/anonim.png'),
                           backgroundColor: Colors.white,
                         ),
                       ),
