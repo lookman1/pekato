@@ -9,6 +9,7 @@ class Laporan {
   String? isi;
   String? foto;
   String? tanggapan;
+  String? idpetugas;
   String? status;
 
   Laporan({
@@ -22,6 +23,7 @@ class Laporan {
     this.isi,
     this.foto,
     this.tanggapan,
+    this.idpetugas,
     this.status,
   });
 
@@ -37,6 +39,7 @@ class Laporan {
       isi: json['isi'],
       foto: json['foto'],
       tanggapan: json['tanggapan'],
+      idpetugas: json['idpetugas'],
       status: json['status'],
     );
   }
@@ -53,6 +56,7 @@ class Laporan {
       'isi': isi,
       'foto': foto,
       'tanggapan': tanggapan,
+      'idpetugas': idpetugas,
       'status': status,
     };
   }
@@ -68,6 +72,7 @@ class Laporan {
     String? isi,
     String? foto,
     String? tanggapan,
+    String? idpetugas,
     String? status,
   }) {
     return Laporan(
@@ -81,6 +86,7 @@ class Laporan {
       isi: isi ?? this.isi,
       foto: foto ?? this.foto,
       tanggapan: tanggapan ?? this.tanggapan,
+      idpetugas: idpetugas ?? this.idpetugas,
       status: status ?? this.status,
     );
   }

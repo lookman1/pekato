@@ -160,67 +160,6 @@ class AuthController extends StateNotifier<Users> {
     }
   }
 
-  Future<void> tambahPetugas(
-      BuildContext context, String email, String password) async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Center(
-              child: CircularProgressIndicator.adaptive(
-                backgroundColor: HexColor('#4392A4'),
-              ),
-            ));
-    try {
-      var credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      if (credential.user != null) {
-        var checkUsers = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(credential.user!.uid)
-            .get();
-        if (!checkUsers.exists) {
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(credential.user!.uid)
-              .set({
-            'uid': credential.user!.uid,
-            'nama': '',
-            'nik': '',
-            'email': email,
-            'alamat': '',
-            'telp': '',
-            'role': 'petugas',
-          });
-          final users = Users(
-            uid: credential.user!.uid,
-            nama: '',
-            nik: '',
-            email: email,
-            alamat: '',
-            telp: '',
-            role: 'petugas',
-          );
-          state = users;
-        }
-      }
-      if (!mounted) return;
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeAdmin()),
-        (route) => false,
-      );
-      Snackbars().successSnackbars(context, 'Akun berhasil dibuat',
-          'akun petugas baru sudah bisa digunakan');
-    } on FirebaseAuthException catch (e) {
-      Snackbars().failedSnackbars(
-          context, 'Email sudah terpakai', "Coba gunakan akun yang lain");
-      //   var error = e.message.toString();
-      //   Snackbars().failedSnackbars(
-      //       context, 'Pastikan semua terisi dengan benar!', error);
-      Navigator.pop(context);
-    }
-  }
-
   Future<void> getUsers({required String uid}) async {
     var checkUsers =
         await FirebaseFirestore.instance.collection('users').doc(uid).get();

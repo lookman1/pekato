@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:pekato/pages/role/administator/admin/home_admin.dart';
+import 'package:pekato/pages/role/administator/fitur/laporan/laporan_tuntas.dart';
 import 'package:pekato/pages/role/administator/fitur/laporan/list_laporan.dart';
 import 'package:pekato/pages/role/user/fitur/form/form_data_user.dart';
 import 'package:pekato/pages/role/user/fitur/laporan/detail_laporan_user.dart';
@@ -161,6 +162,88 @@ class LaporanController extends StateNotifier<Laporan> {
       Navigator.pop(context);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const HomeUser()));
+    } on FirebaseFirestore catch (e) {}
+  }
+
+  Future<void> kirimTanggapan(
+      BuildContext context,
+      String idlaporan,
+      // String idpetugas,
+      // String nama,
+      // String noTelp,
+      String tanggapan) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+              child: CircularProgressIndicator.adaptive(
+                backgroundColor: HexColor('#4392A4'),
+              ),
+            ));
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('laporan')
+          .doc(idlaporan)
+          .update({
+        'tanggapan': tanggapan,
+        'status': 'proses'
+        // , 'idpetugas': idpetugas
+      });
+
+      final laporan = Laporan(
+        tempat: tanggapan,
+        status: 'proses',
+        // idpetugas: idpetugas,
+      );
+      state = laporan;
+
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const ListLaporan()),
+        (route) => false,
+      );
+      Snackbars().successSnackbars(context, 'Berhasil!!', 'Tanggapan terkirim');
+    } on FirebaseFirestore catch (e) {}
+  }
+
+  Future<void> laporanTuntas(
+    BuildContext context,
+    String idlaporan,
+    // String idpetugas,
+    // String nama,
+    // String noTelp,
+  ) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+              child: CircularProgressIndicator.adaptive(
+                backgroundColor: HexColor('#4392A4'),
+              ),
+            ));
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('laporan')
+          .doc(idlaporan)
+          .update({
+        'status': 'tuntas'
+        // , 'idpetugas': idpetugas
+      });
+
+      final laporan = Laporan(
+        status: 'tuntas',
+        // idpetugas: idpetugas,
+      );
+      state = laporan;
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const ListLaporan()),
+        // (route) => false,
+      );
+      Snackbars().successSnackbars(context, 'Berhasil!!', 'Tanggapan terkirim');
     } on FirebaseFirestore catch (e) {}
   }
 }

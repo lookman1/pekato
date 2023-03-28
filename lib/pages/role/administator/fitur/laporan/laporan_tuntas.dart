@@ -5,28 +5,22 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pekato/model/laporan.dart';
+import 'package:pekato/pages/role/administator/fitur/laporan/tanggapan.dart';
 import 'package:pekato/pages/role/user/fitur/form/form_laporan.dart';
 import 'package:pekato/pages/role/user/fitur/laporan/edit_laporan.dart';
-
+import 'package:flutter_riverpod/src/consumer.dart';
+import '../../../../../controllers/laporan_controller.dart';
 import '../../../../../styles/color.dart';
 
-class DetailLaporanUser extends StatefulWidget {
-  const DetailLaporanUser({super.key, required this.laporan});
+class LaporanTuntas extends ConsumerStatefulWidget {
+  const LaporanTuntas({super.key, required this.laporan});
   final Map<dynamic, dynamic> laporan;
 
   @override
-  State<DetailLaporanUser> createState() => _DetailLaporanUserState();
+  ConsumerState<LaporanTuntas> createState() => _LaporanTuntasState();
 }
 
-class _DetailLaporanUserState extends State<DetailLaporanUser> {
-  String? tanggapan;
-
-  @override
-  initState() {
-    super.initState();
-    tanggapan = widget.laporan['tanggapan'].toString();
-  }
-
+class _LaporanTuntasState extends ConsumerState<LaporanTuntas> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -42,7 +36,7 @@ class _DetailLaporanUserState extends State<DetailLaporanUser> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
                     width: 50.0,
@@ -69,49 +63,23 @@ class _DetailLaporanUserState extends State<DetailLaporanUser> {
                       ),
                     ),
                   ),
+                  const SizedBox(
+                    width: 20.0,
+                  ),
                   const Center(
                     child: Text(
-                      "Detail Laporan",
+                      "Data laporan Pekerjaan",
                       style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.w500,
                           color: green4),
                     ),
                   ),
-                  Container(
-                    width: 50.0,
-                    height: 50.0,
-                    decoration: const BoxDecoration(
-                        color: bgbutton,
-                        boxShadow: [
-                          BoxShadow(
-                              color: green1, blurRadius: 1.0, spreadRadius: 1.0)
-                        ],
-                        borderRadius: BorderRadius.all(Radius.circular(25.0))),
-                    child: Center(
-                      child: IconButton(
-                        iconSize: 30.0,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditLaporan(
-                                        laporan: widget.laporan,
-                                      )));
-                        },
-                        icon: const Icon(
-                          Icons.mode_edit_outlined,
-                          color: Colors.white,
-                        ),
-                        hoverColor: green2,
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
             const SizedBox(
-              height: 30.0,
+              height: 20.0,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -359,54 +327,36 @@ class _DetailLaporanUserState extends State<DetailLaporanUser> {
                 ]),
               ),
             ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
-          child: Container(
-            width: size.width * 1,
-            height: 260.0,
-            decoration: BoxDecoration(
-                color: greenLight, borderRadius: BorderRadius.circular(20.0)),
-            child: Column(children: [
-              tanggapan == ''
-                  ? Text('kosong')
-                  : const SizedBox(
-                      height: 10.0,
-                    ),
-              Center(
-                  child: Text(
-                "Tanggapan Petugas",
-                style: TextStyle(
-                    fontSize: 25.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500),
-              )),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 10.0),
-                child: Container(
-                  height: 180,
-                  width: size.width * 1,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white),
-                      color: bgbutton,
-                      borderRadius: BorderRadius.circular(20.0)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Text(
-                      '${widget.laporan['tanggapan_laporan'].toString()}',
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w500),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: Center(
+                    child: SizedBox(
+                      width: 120.0,
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            try {
+                              await ref
+                                  .read(laporanControllerProvider.notifier)
+                                  .laporanTuntas(
+                                      context, widget.laporan['id_laporan']);
+                            } catch (e) {}
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: greenLight,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25.0)),
+                          ),
+                          child: const Text("Tuntas")),
                     ),
                   ),
                 ),
-              )
-            ]),
-          ),
-        )
+              ],
+            ),
+          ],
+        ),
       ])),
     );
   }

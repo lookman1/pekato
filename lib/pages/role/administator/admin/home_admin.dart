@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:pekato/pages/role/administator/admin/fitur/tambah_petugas.dart';
 import 'package:pekato/pages/role/administator/fitur/data_user/data_masyarakat.dart';
-import 'package:pekato/pages/role/administator/fitur/data_user/data_petugas.dart';
 import 'package:pekato/pages/role/administator/fitur/laporan/list_laporan.dart';
+import 'package:pekato/pages/role/administator/fitur/laporan/list_pekerjaan.dart';
 import 'package:pekato/pages/role/user/fitur/form/form_laporan.dart';
 import 'package:pekato/pages/role/user/fitur/notificasi.dart';
 import 'package:pekato/pages/role/user/fitur/laporan/riwayat.dart';
@@ -13,6 +13,8 @@ import 'package:pekato/styles/color.dart';
 
 import '../../../../components/session.dart';
 import '../../../../controllers/auth_controller.dart';
+import '../fitur/profile/profile_admin.dart';
+import 'fitur/notifikasi_admin.dart';
 
 class HomeAdmin extends ConsumerStatefulWidget {
   const HomeAdmin({super.key});
@@ -30,15 +32,16 @@ class _HomeState extends ConsumerState<HomeAdmin> {
   @override
   Widget build(BuildContext context) {
     final sizeContainer = MediaQuery.of(context).size;
+    final users = ref.watch(authControllerProvider);
     return Scaffold(
       body: ListView(children: [
         SafeArea(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             Container(
-              height: sizeContainer.height * 0.4,
+              height: sizeContainer.height * 0.37,
               decoration: const BoxDecoration(
-                  color: green2,
+                  color: greenLight,
                   borderRadius:
                       BorderRadius.vertical(bottom: Radius.circular(200.0))),
               child: Padding(
@@ -47,28 +50,64 @@ class _HomeState extends ConsumerState<HomeAdmin> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconButton(
-                            iconSize: 30.0,
-                            alignment: Alignment.centerRight,
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const Notifikasi()));
-                            },
-                            icon: const Icon(
-                              Icons.notifications_outlined,
-                              color: Colors.white,
+                          Container(
+                            width: 50.0,
+                            height: 50.0,
+                            decoration: const BoxDecoration(
+                                color: bgbutton,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25.0))),
+                            child: Center(
+                              child: IconButton(
+                                iconSize: 30.0,
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ProfileAdministator()));
+                                },
+                                icon: const Icon(
+                                  Icons.mode_edit_outlined,
+                                  color: Colors.white,
+                                ),
+                                hoverColor: greenLight,
+                              ),
                             ),
-                            hoverColor: green2,
+                          ),
+                          Container(
+                            width: 50.0,
+                            height: 50.0,
+                            decoration: const BoxDecoration(
+                                color: bgbutton,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25.0))),
+                            child: Center(
+                              child: IconButton(
+                                iconSize: 30.0,
+                                alignment: Alignment.centerRight,
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const NotifikasiAdmin()));
+                                },
+                                icon: const Icon(
+                                  Icons.notifications_outlined,
+                                  color: Colors.white,
+                                ),
+                                hoverColor: greenLight,
+                              ),
+                            ),
                           ),
                         ],
                       ),
                       const Padding(
-                        padding: EdgeInsets.all(20.0),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
                         child: CircleAvatar(
                           maxRadius: 80,
                           backgroundImage: AssetImage('assets/img/piks.jpg'),
@@ -78,17 +117,24 @@ class _HomeState extends ConsumerState<HomeAdmin> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
+                        children: [
                           Text(
-                            'ADMIN',
-                            style: TextStyle(
-                                fontSize: 23.0,
+                            ('${users.nama}'),
+                            style: const TextStyle(
+                                fontSize: 25.0,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5.0,
                           ),
+                          Text(
+                            ('${users.role}'),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w300),
+                          )
                         ],
                       ),
                     ]),
@@ -109,117 +155,44 @@ class _HomeState extends ConsumerState<HomeAdmin> {
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0),
-                          color: green2),
+                          color: greenLight),
                       child: SizedBox(
                           height: 130.0,
                           width: 170.0,
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 15.0, horizontal: 15.0),
-                                  child: Text(
-                                    "Data Masyarakat",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 20.0,
-                                        color: Colors.white),
-                                  ),
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: const [
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 15.0, horizontal: 15.0),
+                                      child: Text(
+                                        "Data \nUser",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 20.0,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.supervised_user_circle_outlined,
+                                      color: Colors.white,
+                                      size: 50.0,
+                                    ),
+                                    SizedBox(
+                                      width: 1.0,
+                                    )
+                                  ],
                                 ),
-                                Padding(
+                                const Padding(
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 15.0),
                                   child: Text(
-                                    "Data diri user\nmasyarakat",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 17.0),
-                                  ),
-                                )
-                              ])),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ListLaporan()));
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          color: green2),
-                      child: SizedBox(
-                          height: 130.0,
-                          width: 170.0,
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 20.0, horizontal: 15.0),
-                                  child: Text(
-                                    "List Laporan",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 20.0,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 15.0, vertical: 10.0),
-                                  child: Text(
-                                    "Data laporan \ndari masyarakat",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 17.0),
-                                  ),
-                                )
-                              ])),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 30.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DataPetugas()));
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          color: green2),
-                      child: SizedBox(
-                          height: 130.0,
-                          width: 170.0,
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 20.0, horizontal: 15.0),
-                                  child: Text(
-                                    "Data Petugas",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 20.0,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 15.0, vertical: 10.0),
-                                  child: Text(
-                                    "Data diri petugas ",
+                                    "Semua data user\nada disini",
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 17.0),
                                   ),
@@ -237,29 +210,167 @@ class _HomeState extends ConsumerState<HomeAdmin> {
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.0),
-                          color: green2),
+                          color: greenLight),
+                      child: SizedBox(
+                          height: 130.0,
+                          width: 170.0,
+                          child: Padding(
+                            padding: const EdgeInsets.all(.0),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: const [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 15.0, horizontal: 15.0),
+                                        child: Text(
+                                          "Tambah \nPetugas",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 20.0,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.person_add_outlined,
+                                        color: Colors.white,
+                                        size: 50.0,
+                                      ),
+                                      SizedBox(
+                                        width: 12.0,
+                                      )
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 15.0),
+                                    child: Text(
+                                      "Form tambah akun petugas",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 17.0),
+                                    ),
+                                  ),
+                                ]),
+                          )),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 30.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ListLaporan()));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: greenLight),
                       child: SizedBox(
                           height: 130.0,
                           width: 170.0,
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 15.0, horizontal: 15.0),
-                                  child: Text(
-                                    "Tambah Petugas",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 20.0,
-                                        color: Colors.white),
-                                  ),
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: const [
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 15.0, horizontal: 15.0),
+                                      child: Text(
+                                        "List \nlaporan",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 20.0,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.insert_chart_outlined_outlined,
+                                      color: Colors.white,
+                                      size: 50.0,
+                                    ),
+                                    SizedBox(
+                                      width: 12.0,
+                                    )
+                                  ],
                                 ),
                                 Padding(
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 15.0),
                                   child: Text(
-                                    "Form tambah akun petugas",
+                                    "Semua laporan ada disini",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 17.0),
+                                  ),
+                                ),
+                              ])),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ListPekerjaan()));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: greenLight),
+                      child: SizedBox(
+                          height: 130.0,
+                          width: 170.0,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 15.0, bottom: 15.0, left: 10.0),
+                                      child: Text(
+                                        "List \nPekerjaan",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 20.0,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Icon(
+                                      Icons.list,
+                                      color: Colors.white,
+                                      size: 40.0,
+                                    ),
+                                    SizedBox(
+                                      width: 12.0,
+                                    )
+                                  ],
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 15.0),
+                                  child: Text(
+                                    "Daftar Kerjaan ",
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 17.0),
                                   ),
@@ -272,32 +383,6 @@ class _HomeState extends ConsumerState<HomeAdmin> {
             ),
             const SizedBox(
               height: 120.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 100.0),
-              child: SizedBox(
-                height: 50.0,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      backgroundColor: Colors.red,
-                    ),
-                    onPressed: () async {
-                      try {
-                        await ref
-                            .read(authControllerProvider.notifier)
-                            .logout(context);
-                        deleteSession();
-                      } on FirebaseAuthException {
-                        return;
-                      }
-                    },
-                    child: const Text(
-                      "Log Out",
-                      style: TextStyle(fontSize: 18.0),
-                    )),
-              ),
             ),
           ]),
         ),

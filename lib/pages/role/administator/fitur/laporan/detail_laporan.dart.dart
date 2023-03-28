@@ -367,10 +367,9 @@ class _DetailLaporanState extends ConsumerState<DetailLaporan> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Tanggapan(
-                                          idLaporan:
-                                              widget.laporan['id_laporan'],
-                                          status:
-                                              widget.laporan['status_laporan'],
+                                          idLaporan: widget
+                                              .laporan['id_laporan']
+                                              .toString(),
                                         )));
                           },
                           style: ElevatedButton.styleFrom(

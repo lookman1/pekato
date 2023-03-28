@@ -14,6 +14,8 @@ import 'package:pekato/pages/role/user/fitur/profile.dart';
 import 'package:pekato/styles/color.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
 
+import '../../../../../controllers/user_controller.dart';
+
 class TambahPetugas extends ConsumerStatefulWidget {
   const TambahPetugas({super.key});
 
@@ -188,7 +190,7 @@ class _TambahPetugasState extends ConsumerState<TambahPetugas> {
                         if (_formKey.currentState!.validate()) {}
                         try {
                           await ref
-                              .read(authControllerProvider.notifier)
+                              .read(userControllerProvider.notifier)
                               .tambahPetugas(
                                   context, email.text, password.text);
                           password.clear();

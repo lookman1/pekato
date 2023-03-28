@@ -128,11 +128,11 @@ class _HomeState extends ConsumerState<HomeUser> {
                             height: 5.0,
                           ),
                           Text(
-                            ('${users.nik}'),
+                            ('${users.role}'.toUpperCase()),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20.0,
-                                fontWeight: FontWeight.w300),
+                                fontWeight: FontWeight.w400),
                           )
                         ],
                       ),

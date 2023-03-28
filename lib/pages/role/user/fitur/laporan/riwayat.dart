@@ -95,7 +95,6 @@ class _RiwayatState extends State<Riwayat> {
               'isi_laporan': data['isi'],
               'foto_laporan': data['foto'],
               'status_laporan': data['status'],
-              'id_laporan': data['idlaporan'],
               'tanggapan_laporan': data['tanggapan'],
             })
         .toList();
@@ -173,14 +172,8 @@ class _RiwayatState extends State<Riwayat> {
                 child: Container(
                   height: 355.0,
                   width: size.width * 1,
-                  decoration: const BoxDecoration(
-                      color: bgGreen,
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 1.0,
-                            spreadRadius: 1.0)
-                      ],
+                  decoration: BoxDecoration(
+                      color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   child: _laporanItems.isEmpty
                       ? const Center(
@@ -212,14 +205,8 @@ class _RiwayatState extends State<Riwayat> {
                 child: Container(
                   height: 355.0,
                   width: size.width * 1,
-                  decoration: const BoxDecoration(
-                      color: bgGreen,
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 1.0,
-                            spreadRadius: 1.0)
-                      ],
+                  decoration: BoxDecoration(
+                      color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   child: _laporanItems.isEmpty
                       ? const Center(
@@ -235,7 +222,7 @@ class _RiwayatState extends State<Riwayat> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(top: 10.0),
+              padding: EdgeInsets.only(left: 50.0, top: 10.0),
               child: Center(
                 child: Text(
                   "Laporan Tuntas",
@@ -252,14 +239,8 @@ class _RiwayatState extends State<Riwayat> {
                 child: Container(
                   height: 355.0,
                   width: size.width * 1,
-                  decoration: const BoxDecoration(
-                      color: bgGreen,
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 1.0,
-                            spreadRadius: 1.0)
-                      ],
+                  decoration: BoxDecoration(
+                      color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   child: _laporanItems.isEmpty
                       ? const Center(
